@@ -1,13 +1,9 @@
-# Coin Clicker
+# Granddad's Secret
 
-This is a simple coin clicker game. The goal is to click the coin as many times as possible in the time limit.
+A point & click game about grandpa's secret. Made during Github Game Off 2024
 
 ## Instructions
 
-1. Clone the repository.
-2. Install dependencies with `npm install`.
-3. Start the development server with `npm run dev`.
-4. If you want to build the project, run `npm run build`.
+Click on items to interact with the scene and progress through the story. It's a simple and very short game.
 
-
-![screenshot](screenshot.png)
+![screenshot](studio-logo.png)
