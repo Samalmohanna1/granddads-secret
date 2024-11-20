@@ -6,4 +6,4 @@ A point & click game about grandpa's secret. Made during Github Game Off 2024
 
 Click on items to interact with the scene and progress through the story. It's a simple and very short game.
 
-![studio logo.](assets/studio-logo.png)
+![studio logo](public/assets/studio-logo.png)
