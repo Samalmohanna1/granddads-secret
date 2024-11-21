@@ -1,7 +1,7 @@
-import Phaser from "phaser";
+import { Scene } from "phaser";
 import DialogueManager from "../DialogueManager";
 
-export default class KitchenTableScene extends Phaser.Scene {
+export default class KitchenTableScene extends Scene {
     constructor() {
         super("KitchenTableScene");
         this.collectedItems = 0;
