@@ -28,7 +28,7 @@ export default class KitchenScene extends Scene {
         });
 
         this.dialogueManager.addToQueue(
-            "It's a gift from grandpa! Let's see what's inside."
+            "There's a gift on the table, I wonder who it's from."
         );
     }
 }

@@ -3,7 +3,6 @@ export default class DialogueManager {
         this.scene = scene;
         this.queue = [];
         this.isDisplaying = false;
-        this.currentDialogueBox = null;
         this.currentDialogueText = null;
     }
 
@@ -16,7 +15,6 @@ export default class DialogueManager {
 
     displayNext() {
         if (this.currentDialogueBox) {
-            this.currentDialogueBox.destroy();
             this.currentDialogueText.destroy();
         }
 
@@ -26,10 +24,6 @@ export default class DialogueManager {
 
             const { dialogueBoxX, dialogueBoxY, textPadding } =
                 this.scene.game.globals;
-
-            // this.currentDialogueBox = this.scene.add
-            //     .rectangle(dialogueBoxX, dialogueBoxY, 700, 100, 0x000000, 1)
-            //     .setOrigin(0);
 
             this.currentDialogueText = this.scene.add
                 .text(
@@ -49,9 +43,7 @@ export default class DialogueManager {
             this.currentDialogueText.setPadding(60);
 
             this.scene.time.delayedCall(2800, () => {
-                this.currentDialogueBox.destroy();
                 this.currentDialogueText.destroy();
-                this.currentDialogueBox = null;
                 this.currentDialogueText = null;
                 this.displayNext();
             });
