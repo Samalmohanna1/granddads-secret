@@ -1,5 +1,8 @@
-export default class DialogueManager {
+import CustomEventEmitter from "./CustomEventEmitter";
+
+export default class DialogueManager extends CustomEventEmitter {
     constructor(scene) {
+        super();
         this.scene = scene;
         this.queue = [];
         this.isDisplaying = false;
@@ -14,7 +17,7 @@ export default class DialogueManager {
     }
 
     displayNext() {
-        if (this.currentDialogueBox) {
+        if (this.currentDialogueText) {
             this.currentDialogueText.destroy();
         }
 
@@ -49,6 +52,8 @@ export default class DialogueManager {
             });
         } else {
             this.isDisplaying = false;
+            // Emit an event when all dialogues have been displayed
+            this.emit("allDialoguesDisplayed");
         }
     }
 }

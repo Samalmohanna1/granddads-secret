@@ -7,13 +7,14 @@ export default class LakeScene extends Scene {
     constructor() {
         super("LakeScene");
         this.collectedItems = 0;
-        this.totalItems = 4;
+        this.totalItems = 1;
         this.inventoryDisplay = null;
+        this.allItemsCollected = false;
     }
 
     preload() {
         this.load.image("kitchen", "assets/scenes/kitchen.jpg");
-        this.load.image("letter", "assets/items/letter-one.jpg");
+        this.load.image("letter2", "assets/items/letter-one.jpg");
     }
 
     create() {
@@ -23,25 +24,30 @@ export default class LakeScene extends Scene {
 
         const items = [
             {
-                key: "letter",
+                key: "letter2",
                 x: this.cameras.main.width - 600,
                 y: this.cameras.main.height - 600,
-                description: "This letter says I need to get something.",
+                description:
+                    "A letter from Grandpa. It mentions a secret fishing spot.",
             },
         ];
 
         items.forEach((item) => this.createCollectibleItem(item));
 
         this.dialogueManager.addToQueue(
-            "I remember this lake, we can fishing here before."
+            "It's the lake from the photo, where he took me fishing."
         );
 
-        // Initialize global inventory display
         this.inventoryDisplay = new InventoryDisplay(this);
+
+        this.dialogueManager.on("allDialoguesDisplayed", () => {
+            if (this.allItemsCollected) {
+                this.scene.start("CabinScene");
+            }
+        });
     }
 
     update() {
-        // Update the inventory display each frame
         if (this.inventoryDisplay) {
             this.inventoryDisplay.update();
         }
@@ -60,10 +66,8 @@ export default class LakeScene extends Scene {
     collectItem(gameObject, item) {
         this.dialogueManager.addToQueue(item.description);
 
-        // Add item to global inventory
-        Inventory.addItem(item.key); // Use global inventory
+        Inventory.addItem(item.key);
 
-        // Remove the item from the scene
         gameObject.destroy();
 
         this.collectedItems++;
@@ -72,12 +76,12 @@ export default class LakeScene extends Scene {
         // this.sound.play('collect_sound');
 
         if (this.collectedItems === this.totalItems) {
+            this.allItemsCollected = true;
             this.dialogueManager.addToQueue(
                 "Looks like I've got everything, better check the map."
             );
         }
 
-        // Update the global inventory display
         if (this.inventoryDisplay) {
             this.inventoryDisplay.update();
         }

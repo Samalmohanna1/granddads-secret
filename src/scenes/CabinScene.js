@@ -3,70 +3,46 @@ import DialogueManager from "../DialogueManager";
 import Inventory from "../Inventory";
 import InventoryDisplay from "../InventoryDisplay";
 
-export default class KitchenTableScene extends Scene {
+export default class CabinScene extends Scene {
     constructor() {
-        super("KitchenTableScene");
+        super("CabinScene");
         this.collectedItems = 0;
-        this.totalItems = 4;
+        this.totalItems = 1;
         this.inventoryDisplay = null;
         this.allItemsCollected = false;
     }
 
     preload() {
-        this.load.image("kitchen-table", "assets/scenes/kitchen-table.jpg");
-        this.load.image("hook", "assets/items/hook.jpg");
-        this.load.image("letter", "assets/items/letter-one.jpg");
-        this.load.image("photo", "assets/items/photo-fishing.jpg");
-        this.load.image("map", "assets/items/map-icon.jpg");
+        this.load.image("letter3", "assets/items/letter-one.jpg");
     }
 
     create() {
         this.dialogueManager = new DialogueManager(this);
 
-        this.add.image(0, 0, "kitchen-table").setOrigin(0);
+        this.add.image(0, 0, "kitchen").setOrigin(0);
 
         const items = [
             {
-                key: "hook",
-                x: this.cameras.main.width - 200,
-                y: this.cameras.main.height - 600,
-                description: "A rusty old fishing hook. It looks well-used.",
-            },
-            {
-                key: "letter",
+                key: "letter3",
                 x: this.cameras.main.width - 600,
                 y: this.cameras.main.height - 600,
-                description:
-                    "A letter from Grandpa. It mentions a secret fishing spot.",
-            },
-            {
-                key: "photo",
-                x: this.cameras.main.width - 300,
-                y: this.cameras.main.height - 300,
-                description: "A photo of Grandpa fishing. He looks so happy!",
-            },
-            {
-                key: "map",
-                x: this.cameras.main.width - 600,
-                y: this.cameras.main.height - 300,
-                description:
-                    "An old map with a location marked. Could this be the secret spot?",
+                description: "Another letter, with a big reveal.",
             },
         ];
 
         items.forEach((item) => this.createCollectibleItem(item));
 
         this.dialogueManager.addToQueue(
-            "It's a gift from grandpa! Let's see what's inside."
+            "An old cabin, I wonder if Grandpa used it while out hunting."
         );
 
         this.inventoryDisplay = new InventoryDisplay(this);
 
-        this.dialogueManager.on("allDialoguesDisplayed", () => {
-            if (this.allItemsCollected) {
-                this.scene.start("LakeScene");
-            }
-        });
+        // this.dialogueManager.on("allDialoguesDisplayed", () => {
+        //     if (this.allItemsCollected) {
+        //         this.scene.start("CabinScene");
+        //     }
+        // });
     }
 
     update() {
