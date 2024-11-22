@@ -12,9 +12,9 @@ export default class CabinScene extends Scene {
         this.allItemsCollected = false;
     }
 
-    preload() {
-        this.load.image("letter3", "assets/items/letter-one.jpg");
-    }
+    // preload() {
+    //     this.load.image("letter3", "assets/items/letter-one.jpg");
+    // }
 
     create() {
         this.dialogueManager = new DialogueManager(this);

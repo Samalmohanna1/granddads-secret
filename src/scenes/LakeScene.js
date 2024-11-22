@@ -12,10 +12,10 @@ export default class LakeScene extends Scene {
         this.allItemsCollected = false;
     }
 
-    preload() {
-        this.load.image("kitchen", "assets/scenes/kitchen.jpg");
-        this.load.image("letter2", "assets/items/letter-one.jpg");
-    }
+    // preload() {
+    //     this.load.image("kitchen", "assets/scenes/kitchen.jpg");
+    //     this.load.image("letter2", "assets/items/letter-one.jpg");
+    // }
 
     create() {
         this.dialogueManager = new DialogueManager(this);

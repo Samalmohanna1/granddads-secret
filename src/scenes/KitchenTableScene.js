@@ -12,13 +12,13 @@ export default class KitchenTableScene extends Scene {
         this.allItemsCollected = false;
     }
 
-    preload() {
-        this.load.image("kitchen-table", "assets/scenes/kitchen-table.jpg");
-        this.load.image("hook", "assets/items/hook.jpg");
-        this.load.image("letter", "assets/items/letter-one.jpg");
-        this.load.image("photo", "assets/items/photo-fishing.jpg");
-        this.load.image("map", "assets/items/map-icon.jpg");
-    }
+    // preload() {
+    //     this.load.image("kitchen-table", "assets/scenes/kitchen-table.jpg");
+    //     this.load.image("hook", "assets/items/hook.jpg");
+    //     this.load.image("letter", "assets/items/letter-one.jpg");
+    //     this.load.image("photo", "assets/items/photo-fishing.jpg");
+    //     this.load.image("map", "assets/items/map-icon.jpg");
+    // }
 
     create() {
         this.dialogueManager = new DialogueManager(this);
