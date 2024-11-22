@@ -3,60 +3,37 @@ import DialogueManager from "../DialogueManager";
 import Inventory from "../Inventory";
 import InventoryDisplay from "../InventoryDisplay";
 
-export default class KitchenTableScene extends Scene {
+export default class LakeScene extends Scene {
     constructor() {
-        super("KitchenTableScene");
+        super("LakeScene");
         this.collectedItems = 0;
         this.totalItems = 4;
-        this.inventoryDisplay = null; // Initialize inventory display
+        this.inventoryDisplay = null;
     }
 
     preload() {
-        this.load.image("kitchen-table", "assets/scenes/kitchen-table.jpg");
-        this.load.image("hook", "assets/items/hook.jpg");
+        this.load.image("kitchen", "assets/scenes/kitchen.jpg");
         this.load.image("letter", "assets/items/letter-one.jpg");
-        this.load.image("photo", "assets/items/photo-fishing.jpg");
-        this.load.image("map", "assets/items/map-icon.jpg");
     }
 
     create() {
         this.dialogueManager = new DialogueManager(this);
 
-        this.add.image(0, 0, "kitchen-table").setOrigin(0);
+        this.add.image(0, 0, "kitchen").setOrigin(0);
 
         const items = [
-            {
-                key: "hook",
-                x: this.cameras.main.width - 200,
-                y: this.cameras.main.height - 600,
-                description: "A rusty old fishing hook. It looks well-used.",
-            },
             {
                 key: "letter",
                 x: this.cameras.main.width - 600,
                 y: this.cameras.main.height - 600,
-                description:
-                    "A letter from Grandpa. It mentions a secret fishing spot.",
-            },
-            {
-                key: "photo",
-                x: this.cameras.main.width - 300,
-                y: this.cameras.main.height - 300,
-                description: "A photo of Grandpa fishing. He looks so happy!",
-            },
-            {
-                key: "map",
-                x: this.cameras.main.width - 600,
-                y: this.cameras.main.height - 300,
-                description:
-                    "An old map with a location marked. Could this be the secret spot?",
+                description: "This letter says I need to get something.",
             },
         ];
 
         items.forEach((item) => this.createCollectibleItem(item));
 
         this.dialogueManager.addToQueue(
-            "It's a gift from grandpa! Let's see what's inside."
+            "I remember this lake, we can fishing here before."
         );
 
         // Initialize global inventory display
@@ -98,8 +75,6 @@ export default class KitchenTableScene extends Scene {
             this.dialogueManager.addToQueue(
                 "Looks like I've got everything, better check the map."
             );
-
-            this.scene.start("LakeScene");
         }
 
         // Update the global inventory display

@@ -5,6 +5,6 @@ export default defineConfig({
         outDir: "dist",
         assetsDir: "assets",
         emptyOutDir: true,
-        chunkSizeWarningLimit: 1470,
+        chunkSizeWarningLimit: 1480,
     },
 });
