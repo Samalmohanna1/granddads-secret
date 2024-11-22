@@ -59,11 +59,14 @@ export default class Preloader extends Scene {
 
         this.load.image("kitchen", "scenes/kitchen.jpg");
         this.load.image("kitchen-table", "scenes/kitchen-table.jpg");
+        this.load.image("lake", "scenes/lake.jpg");
+        this.load.image("cabin", "scenes/cabin.jpg");
         this.load.image("gift", "items/gift.jpg");
         this.load.image("hook", "items/hook.jpg");
         this.load.image("letter", "items/letter-one.jpg");
         this.load.image("photo", "items/photo-fishing.jpg");
         this.load.image("map", "items/map-icon.jpg");
+        this.load.image("boat", "items/boat.png");
     }
 
     create() {
@@ -74,8 +77,16 @@ export default class Preloader extends Scene {
         );
         logo.setOrigin(0.5);
 
+        this.tweens.add({
+            targets: logo,
+            y: "+=10", // Move 50 pixels down
+            duration: 700, // Animation duration in milliseconds
+            yoyo: true, // Reverse the animation
+            repeat: -1, // Repeat indefinitely
+        });
+
         this.time.delayedCall(2000, () => {
-            this.scene.start("MenuScene");
+            this.scene.start("KitchenScene");
         });
     }
 }

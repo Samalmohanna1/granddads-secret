@@ -12,14 +12,6 @@ export default class KitchenTableScene extends Scene {
         this.allItemsCollected = false;
     }
 
-    // preload() {
-    //     this.load.image("kitchen-table", "assets/scenes/kitchen-table.jpg");
-    //     this.load.image("hook", "assets/items/hook.jpg");
-    //     this.load.image("letter", "assets/items/letter-one.jpg");
-    //     this.load.image("photo", "assets/items/photo-fishing.jpg");
-    //     this.load.image("map", "assets/items/map-icon.jpg");
-    // }
-
     create() {
         this.dialogueManager = new DialogueManager(this);
 
@@ -69,33 +61,44 @@ export default class KitchenTableScene extends Scene {
         });
     }
 
-    update() {
-        if (this.inventoryDisplay) {
-            this.inventoryDisplay.update();
-        }
-    }
-
     createCollectibleItem(item) {
         const gameObject = this.add
             .image(item.x, item.y, item.key)
             .setInteractive();
 
+        // Create the outline
+        const outline = this.add.graphics();
+        outline.lineStyle(6, 0xf96f28); // 6px wide orange line
+        outline.strokeRect(
+            item.x - gameObject.width / 2 - 3,
+            item.y - gameObject.height / 2 - 3,
+            gameObject.width + 6,
+            gameObject.height + 6
+        );
+        outline.setVisible(false);
+
+        gameObject.on("pointerover", () => {
+            outline.setVisible(true);
+        });
+
+        gameObject.on("pointerout", () => {
+            outline.setVisible(false);
+        });
+
         gameObject.on("pointerdown", () => {
-            this.collectItem(gameObject, item);
+            this.collectItem(gameObject, outline, item);
         });
     }
 
-    collectItem(gameObject, item) {
+    collectItem(gameObject, outline, item) {
         this.dialogueManager.addToQueue(item.description);
 
         Inventory.addItem(item.key);
 
         gameObject.destroy();
+        outline.destroy();
 
         this.collectedItems++;
-
-        // Play a sound effect (if you have one)
-        // this.sound.play('collect_sound');
 
         if (this.collectedItems === this.totalItems) {
             this.allItemsCollected = true;
@@ -104,6 +107,12 @@ export default class KitchenTableScene extends Scene {
             );
         }
 
+        if (this.inventoryDisplay) {
+            this.inventoryDisplay.update();
+        }
+    }
+
+    update() {
         if (this.inventoryDisplay) {
             this.inventoryDisplay.update();
         }

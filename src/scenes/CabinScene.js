@@ -19,18 +19,18 @@ export default class CabinScene extends Scene {
     create() {
         this.dialogueManager = new DialogueManager(this);
 
-        this.add.image(0, 0, "kitchen").setOrigin(0);
+        this.add.image(0, 0, "cabin").setOrigin(0);
 
-        const items = [
-            {
-                key: "letter3",
-                x: this.cameras.main.width - 600,
-                y: this.cameras.main.height - 600,
-                description: "Another letter, with a big reveal.",
-            },
-        ];
+        // const items = [
+        //     {
+        //         key: "letter3",
+        //         x: this.cameras.main.width - 600,
+        //         y: this.cameras.main.height - 600,
+        //         description: "Another letter, with a big reveal.",
+        //     },
+        // ];
 
-        items.forEach((item) => this.createCollectibleItem(item));
+        // items.forEach((item) => this.createCollectibleItem(item));
 
         this.dialogueManager.addToQueue(
             "An old cabin, I wonder if Grandpa used it while out hunting."

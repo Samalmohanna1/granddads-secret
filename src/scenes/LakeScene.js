@@ -12,30 +12,25 @@ export default class LakeScene extends Scene {
         this.allItemsCollected = false;
     }
 
-    // preload() {
-    //     this.load.image("kitchen", "assets/scenes/kitchen.jpg");
-    //     this.load.image("letter2", "assets/items/letter-one.jpg");
-    // }
-
     create() {
         this.dialogueManager = new DialogueManager(this);
 
-        this.add.image(0, 0, "kitchen").setOrigin(0);
+        this.add.image(0, 0, "lake").setOrigin(0);
 
         const items = [
             {
-                key: "letter2",
+                key: "boat",
                 x: this.cameras.main.width - 600,
-                y: this.cameras.main.height - 600,
+                y: this.cameras.main.height - 200,
                 description:
-                    "A letter from Grandpa. It mentions a secret fishing spot.",
+                    "Wait, is this the same boat we used on that trip all those years ago?",
             },
         ];
 
         items.forEach((item) => this.createCollectibleItem(item));
 
         this.dialogueManager.addToQueue(
-            "It's the lake from the photo, where he took me fishing."
+            "There's something out in the water, I could use this boat to reach it."
         );
 
         this.inventoryDisplay = new InventoryDisplay(this);
@@ -58,8 +53,27 @@ export default class LakeScene extends Scene {
             .image(item.x, item.y, item.key)
             .setInteractive();
 
+        // Create the outline
+        const outline = this.add.graphics();
+        outline.lineStyle(6, 0xf96f28); // 6px wide orange line
+        outline.strokeRect(
+            item.x - gameObject.width / 2 - 3,
+            item.y - gameObject.height / 2 - 3,
+            gameObject.width + 6,
+            gameObject.height + 6
+        );
+        outline.setVisible(false);
+
+        gameObject.on("pointerover", () => {
+            outline.setVisible(true);
+        });
+
+        gameObject.on("pointerout", () => {
+            outline.setVisible(false);
+        });
+
         gameObject.on("pointerdown", () => {
-            this.collectItem(gameObject, item);
+            this.scene.start("CabinScene");
         });
     }
 
@@ -77,9 +91,9 @@ export default class LakeScene extends Scene {
 
         if (this.collectedItems === this.totalItems) {
             this.allItemsCollected = true;
-            this.dialogueManager.addToQueue(
-                "Looks like I've got everything, better check the map."
-            );
+            // this.dialogueManager.addToQueue(
+            //     "Looks like I've got everything, better check the map."
+            // );
         }
 
         if (this.inventoryDisplay) {
