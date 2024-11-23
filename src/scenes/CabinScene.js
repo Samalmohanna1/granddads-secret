@@ -64,7 +64,7 @@ export default class CabinScene extends Scene {
     collectItem(gameObject, item) {
         this.dialogueManager.addToQueue(item.description);
 
-        Inventory.addItem(item.key);
+        Inventory.addItem(item);
 
         gameObject.destroy();
 

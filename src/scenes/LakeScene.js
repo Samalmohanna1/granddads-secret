@@ -80,7 +80,7 @@ export default class LakeScene extends Scene {
     collectItem(gameObject, item) {
         this.dialogueManager.addToQueue(item.description);
 
-        Inventory.addItem(item.key);
+        Inventory.addItem(item);
 
         gameObject.destroy();
 

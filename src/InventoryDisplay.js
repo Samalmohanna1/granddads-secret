@@ -18,7 +18,6 @@ class InventoryDisplay {
         );
         background.setOrigin(0, 0);
 
-        // Add inventory title
         this.scene.add.text(
             10,
             this.scene.cameras.main.height - 90,
@@ -28,32 +27,56 @@ class InventoryDisplay {
     }
 
     update() {
-        // Clear existing inventory display
-        this.inventoryDisplayItems.forEach((item) => item.destroy());
-        this.inventoryDisplayItems = [];
-
-        // Get items from global inventory
         const items = Inventory.getItems();
 
-        // Display each item in the inventory
-        items.forEach((itemKey, index) => {
+        while (this.inventoryDisplayItems.length > items.length) {
+            const item = this.inventoryDisplayItems.pop();
+            item.destroy();
+        }
+
+        items.forEach((item, index) => {
             const x = 150 + index * 150;
             const y = this.scene.cameras.main.height - 120;
 
-            const itemDisplay = this.scene.add
-                .image(x, y, itemKey)
-                .setScale(0.5);
-            this.inventoryDisplayItems.push(itemDisplay);
+            if (index >= this.inventoryDisplayItems.length) {
+                const itemDisplay = this.scene.add
+                    .image(x, y, item.key)
+                    .setScale(0.5)
+                    .setInteractive()
+                    .setDepth(10);
 
-            // Add item name below the icon
-            const itemName = this.scene.add.text(x, y + 50, itemKey, {
-                fontSize: "16px",
-                fill: "#090909",
-                align: "center",
-            });
-            itemName.setOrigin(0.5, 0);
-            this.inventoryDisplayItems.push(itemName);
+                itemDisplay.on("pointerdown", () => {
+                    this.onItemClick(item);
+                });
+
+                const itemName = this.scene.add.text(x, y + 50, item.key, {
+                    fontSize: "16px",
+                    fill: "#ffffff",
+                    align: "center",
+                });
+                itemName.setOrigin(0.5, 0);
+                itemName.setDepth(11);
+
+                this.inventoryDisplayItems.push({
+                    display: itemDisplay,
+                    text: itemName,
+                });
+            } else {
+                const inventoryItem = this.inventoryDisplayItems[index];
+                inventoryItem.display.setTexture(item.key);
+                inventoryItem.display.setPosition(x, y);
+                inventoryItem.text.setText(item.key);
+                inventoryItem.text.setPosition(x, y + 50);
+            }
         });
+    }
+
+    onItemClick(item) {
+        if (this.scene.dialogueManager) {
+            this.scene.dialogueManager.addToQueue(item.description);
+        } else {
+            console.warn("DialogueManager not found in the scene");
+        }
     }
 }
 

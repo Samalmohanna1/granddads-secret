@@ -1,28 +1,17 @@
 class Inventory {
-    constructor() {
-        this.items = [];
+    static items = [];
+
+    static addItem(item) {
+        this.items.push(item);
     }
 
-    addItem(item) {
-        if (!this.items.includes(item)) {
-            this.items.push(item);
-        }
-    }
-
-    removeItem(item) {
-        const index = this.items.indexOf(item);
-        if (index > -1) {
-            this.items.splice(index, 1);
-        }
-    }
-
-    getItems() {
+    static getItems() {
         return this.items;
     }
 
-    clear() {
-        this.items = [];
+    static hasItem(key) {
+        return this.items.some((item) => item.key === key);
     }
 }
 
-export default new Inventory();
+export default Inventory;

@@ -6,8 +6,6 @@ export default class Preloader extends Scene {
     }
 
     preload() {
-        const progressBar = this.add.graphics();
-
         const width = this.cameras.main.width;
         const height = this.cameras.main.height;
         const loadingText = this.make.text({
@@ -34,9 +32,6 @@ export default class Preloader extends Scene {
 
         this.load.on("progress", function (value) {
             percentText.setText(parseInt(value * 100) + "%");
-            progressBar.clear();
-            progressBar.fillStyle(0xffffff, 1);
-            progressBar.fillRect(250, 480, 300 * value, 30);
         });
 
         this.load.on("fileprogress", function (file) {
@@ -44,7 +39,6 @@ export default class Preloader extends Scene {
         });
 
         this.load.on("complete", function () {
-            progressBar.destroy();
             loadingText.destroy();
             percentText.destroy();
         });
@@ -86,7 +80,7 @@ export default class Preloader extends Scene {
         });
 
         this.time.delayedCall(2000, () => {
-            this.scene.start("KitchenScene");
+            this.scene.start("KitchenTableScene");
         });
     }
 }

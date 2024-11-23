@@ -93,7 +93,7 @@ export default class KitchenTableScene extends Scene {
     collectItem(gameObject, outline, item) {
         this.dialogueManager.addToQueue(item.description);
 
-        Inventory.addItem(item.key);
+        Inventory.addItem(item);
 
         gameObject.destroy();
         outline.destroy();
