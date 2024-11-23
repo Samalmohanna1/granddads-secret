@@ -2,6 +2,7 @@ import { Scene } from "phaser";
 import DialogueManager from "../DialogueManager";
 import Inventory from "../Inventory";
 import InventoryDisplay from "../InventoryDisplay";
+import gameMap from "../GameMap";
 
 export default class KitchenTableScene extends Scene {
     constructor() {
@@ -10,7 +11,8 @@ export default class KitchenTableScene extends Scene {
         this.totalItems = 4;
         this.inventoryDisplay = null;
         this.allItemsCollected = false;
-        this.isMapDisplayed = false;
+        this.mapDisplay = null;
+        this.mapLocations = [];
     }
 
     create() {
@@ -55,11 +57,7 @@ export default class KitchenTableScene extends Scene {
 
         this.inventoryDisplay = new InventoryDisplay(this);
 
-        this.dialogueManager.on("allDialoguesDisplayed", () => {
-            if (this.allItemsCollected) {
-                this.scene.start("LakeScene");
-            }
-        });
+        this.events.on("allItemsCollected", this.onAllItemsCollected, this);
     }
 
     createCollectibleItem(item) {
@@ -69,9 +67,8 @@ export default class KitchenTableScene extends Scene {
                 useHandCursor: true,
             });
 
-        // Create the outline
         const outline = this.add.graphics();
-        outline.lineStyle(6, 0xf96f28); // 6px wide orange line
+        outline.lineStyle(6, 0xf96f28);
         outline.strokeRect(
             item.x - gameObject.width / 2 - 3,
             item.y - gameObject.height / 2 - 3,
@@ -109,9 +106,7 @@ export default class KitchenTableScene extends Scene {
 
         if (this.collectedItems === this.totalItems) {
             this.allItemsCollected = true;
-            this.dialogueManager.addToQueue(
-                "Looks like I've got everything, better check the map."
-            );
+            this.events.emit("allItemsCollected");
         }
 
         if (this.inventoryDisplay) {
@@ -119,11 +114,17 @@ export default class KitchenTableScene extends Scene {
         }
     }
 
-    displayMap() {
-        if (this.isMapDisplayed) return;
+    onAllItemsCollected() {
+        this.dialogueManager.addToQueue(
+            "I've collected everything. I should check the map for the next location."
+        );
+        gameMap.addLocation("lake", "LakeScene", 820, 520, "journey1");
+    }
 
-        this.isMapDisplayed = true;
-        const mapDisplay = this.add
+    displayMap() {
+        if (this.mapDisplay) return;
+
+        this.mapDisplay = this.add
             .image(
                 this.cameras.main.width / 2,
                 this.cameras.main.height / 2,
@@ -133,10 +134,48 @@ export default class KitchenTableScene extends Scene {
             .setScale(0.2)
             .setInteractive();
 
-        mapDisplay.on("pointerdown", () => {
-            mapDisplay.destroy();
-            this.isMapDisplayed = false;
+        this.createMapLocations();
+
+        this.mapDisplay.on("pointerdown", () => {
+            this.closeMap();
         });
+    }
+
+    createMapLocations() {
+        const locations = gameMap.getAllLocations();
+        this.mapLocations = locations.map((location) => {
+            const locationIcon = this.add
+                .image(location.x, location.y, location.imageKey)
+                .setScale(0.2)
+                .setInteractive({
+                    useHandCursor: true,
+                });
+
+            if (
+                gameMap
+                    .getAvailableLocations()
+                    .some((loc) => loc.key === location.key)
+            ) {
+                locationIcon.on("pointerdown", (pointer) => {
+                    gameMap.markLocationVisited(location.key);
+                    this.scene.start(location.scene);
+                });
+            } else {
+                locationIcon.setTint(0x808080);
+                locationIcon.setInteractive({ useHandCursor: false });
+            }
+
+            return locationIcon;
+        });
+    }
+
+    closeMap() {
+        if (this.mapDisplay) {
+            this.mapDisplay.destroy();
+            this.mapDisplay = null;
+        }
+        this.mapLocations.forEach((location) => location.destroy());
+        this.mapLocations = [];
     }
 
     update() {

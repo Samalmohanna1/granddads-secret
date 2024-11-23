@@ -6,6 +6,7 @@ import KitchenTableScene from "./scenes/KitchenTableScene";
 import LakeScene from "./scenes/LakeScene.js";
 import CabinScene from "./scenes/CabinScene.js";
 import Preloader from "./scenes/Preloader.js";
+import GameOverScene from "./scenes/GameOver.js";
 
 const config = {
     type: AUTO,
@@ -18,6 +19,7 @@ const config = {
         KitchenTableScene,
         LakeScene,
         CabinScene,
+        GameOverScene,
     ],
     scale: {
         mode: Phaser.Scale.FIT,

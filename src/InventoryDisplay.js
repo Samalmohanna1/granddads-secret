@@ -49,9 +49,7 @@ class InventoryDisplay {
 
                 itemDisplay.on("pointerdown", () => {
                     if (item.key === "map") {
-                        if (!this.scene.isMapDisplayed) {
-                            this.scene.displayMap();
-                        }
+                        this.scene.displayMap();
                     } else {
                         this.onItemClick(item);
                     }

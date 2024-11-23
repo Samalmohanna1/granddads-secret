@@ -62,6 +62,9 @@ export default class Preloader extends Scene {
         this.load.image("map", "items/map-icon.jpg");
         this.load.image("map-full", "items/map-full.png");
         this.load.image("boat", "items/boat.png");
+        this.load.image("journey1", "items/journey-1.png");
+        this.load.image("journey2", "items/journey-2.png");
+        this.load.image("journey3", "items/journey-3.png");
     }
 
     create() {

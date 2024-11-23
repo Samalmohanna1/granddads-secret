@@ -1,27 +1,42 @@
-import { Scene } from 'phaser';
+import { Scene } from "phaser";
 
-export class GameOver extends Scene
-{
-    constructor ()
-    {
-        super('GameOver');
+export default class GameOverScene extends Scene {
+    constructor() {
+        super("GameOverScene");
     }
 
-    create ()
-    {
-        //  Get the current highscore from the registry
-        const score = this.registry.get('highscore');
+    create() {
+        this.add
+            .text(400, 200, "Game Over", { fontSize: "32px", fill: "#fff" })
+            .setOrigin(0.5);
+        this.add
+            .text(400, 300, "Thanks for playing!", {
+                fontSize: "24px",
+                fill: "#fff",
+            })
+            .setOrigin(0.5);
+        this.add
+            .text(400, 350, "Credits:", { fontSize: "24px", fill: "#fff" })
+            .setOrigin(0.5);
+        this.add
+            .text(400, 400, "SleepySam", { fontSize: "20px", fill: "#fff" })
+            .setOrigin(0.5);
 
-        const textStyle = { fontFamily: 'Arial Black', fontSize: 64, color: '#ffffff', stroke: '#000000', strokeThickness: 8 };
+        const playAgainButton = this.add
+            .text(400, 500, "Play Again", { fontSize: "24px", fill: "#0f0" })
+            .setOrigin(0.5)
+            .setInteractive({ useHandCursor: true });
 
-        this.add.image(512, 384, 'background');
+        playAgainButton.on("pointerdown", () => {
+            location.reload(); // Refresh the page
+        });
 
-        this.add.text(512, 300, `Game Over\n\nHigh Score: ${score}`, textStyle).setAlign('center').setOrigin(0.5);
+        playAgainButton.on("pointerover", () => {
+            playAgainButton.setStyle({ fill: "#ff0" }); // Change color on hover
+        });
 
-        this.input.once('pointerdown', () => {
-
-            this.scene.start('MainMenu');
-
+        playAgainButton.on("pointerout", () => {
+            playAgainButton.setStyle({ fill: "#0f0" }); // Reset color
         });
     }
 }
