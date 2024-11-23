@@ -48,7 +48,13 @@ class InventoryDisplay {
                     .setDepth(10);
 
                 itemDisplay.on("pointerdown", () => {
-                    this.onItemClick(item);
+                    if (item.key === "map") {
+                        if (!this.scene.isMapDisplayed) {
+                            this.scene.displayMap();
+                        }
+                    } else {
+                        this.onItemClick(item);
+                    }
                 });
 
                 const itemName = this.scene.add.text(x, y + 50, item.key, {

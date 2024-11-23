@@ -10,6 +10,7 @@ export default class KitchenTableScene extends Scene {
         this.totalItems = 4;
         this.inventoryDisplay = null;
         this.allItemsCollected = false;
+        this.isMapDisplayed = false;
     }
 
     create() {
@@ -102,6 +103,10 @@ export default class KitchenTableScene extends Scene {
 
         this.collectedItems++;
 
+        if (item.key === "map") {
+            this.displayMap();
+        }
+
         if (this.collectedItems === this.totalItems) {
             this.allItemsCollected = true;
             this.dialogueManager.addToQueue(
@@ -112,6 +117,26 @@ export default class KitchenTableScene extends Scene {
         if (this.inventoryDisplay) {
             this.inventoryDisplay.update();
         }
+    }
+
+    displayMap() {
+        if (this.isMapDisplayed) return;
+
+        this.isMapDisplayed = true;
+        const mapDisplay = this.add
+            .image(
+                this.cameras.main.width / 2,
+                this.cameras.main.height / 2,
+                "map-full"
+            )
+            .setOrigin(0.5)
+            .setScale(0.2)
+            .setInteractive();
+
+        mapDisplay.on("pointerdown", () => {
+            mapDisplay.destroy();
+            this.isMapDisplayed = false;
+        });
     }
 
     update() {

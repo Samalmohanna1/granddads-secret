@@ -6,11 +6,6 @@ export default class KitchenScene extends Scene {
         super("KitchenScene");
     }
 
-    // preload() {
-    //     this.load.image("kitchen", "assets/scenes/kitchen.jpg");
-    //     this.load.image("gift", "assets/items/gift.jpg");
-    // }
-
     create() {
         this.dialogueManager = new DialogueManager(this);
 
