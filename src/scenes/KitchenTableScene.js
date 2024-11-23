@@ -64,7 +64,9 @@ export default class KitchenTableScene extends Scene {
     createCollectibleItem(item) {
         const gameObject = this.add
             .image(item.x, item.y, item.key)
-            .setInteractive();
+            .setInteractive({
+                useHandCursor: true,
+            });
 
         // Create the outline
         const outline = this.add.graphics();

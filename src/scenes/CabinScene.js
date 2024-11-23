@@ -54,7 +54,9 @@ export default class CabinScene extends Scene {
     createCollectibleItem(item) {
         const gameObject = this.add
             .image(item.x, item.y, item.key)
-            .setInteractive();
+            .setInteractive({
+                useHandCursor: true,
+            });
 
         gameObject.on("pointerdown", () => {
             this.collectItem(gameObject, item);

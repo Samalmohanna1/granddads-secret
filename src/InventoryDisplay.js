@@ -42,7 +42,9 @@ class InventoryDisplay {
                 const itemDisplay = this.scene.add
                     .image(x, y, item.key)
                     .setScale(0.5)
-                    .setInteractive()
+                    .setInteractive({
+                        useHandCursor: true,
+                    })
                     .setDepth(10);
 
                 itemDisplay.on("pointerdown", () => {

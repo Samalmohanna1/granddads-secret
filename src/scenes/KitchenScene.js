@@ -16,7 +16,9 @@ export default class KitchenScene extends Scene {
 
         this.add.image(0, 0, "kitchen").setOrigin(0);
 
-        const gift = this.add.image(0, 0, "gift").setInteractive();
+        const gift = this.add.image(0, 0, "gift").setInteractive({
+            useHandCursor: true,
+        });
 
         const outline = this.add.graphics();
         outline.lineStyle(6, 0xf96f28);
