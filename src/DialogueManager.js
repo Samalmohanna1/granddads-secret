@@ -52,7 +52,6 @@ export default class DialogueManager extends CustomEventEmitter {
             });
         } else {
             this.isDisplaying = false;
-            // Emit an event when all dialogues have been displayed
             this.emit("allDialoguesDisplayed");
         }
     }
