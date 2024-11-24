@@ -34,7 +34,7 @@ export default class DialogueManager extends CustomEventEmitter {
                     dialogueBoxY + textPadding,
                     text,
                     {
-                        fontSize: "32px",
+                        font: "32px UbuntuMono",
                         fill: "#e1e1e1",
                         wordWrap: { width: 650 },
                     }

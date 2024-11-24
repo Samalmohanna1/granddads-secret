@@ -13,7 +13,7 @@ export default class Preloader extends Scene {
             y: height / 2 + 100,
             text: "Loading...",
             style: {
-                font: "20px monospace",
+                font: "24px UbuntuMono",
                 fill: "#ffffff",
             },
         });
@@ -24,7 +24,7 @@ export default class Preloader extends Scene {
             y: height / 2 + 140,
             text: "0%",
             style: {
-                font: "18px monospace",
+                font: "24px UbuntuMono",
                 fill: "#ffffff",
             },
         });
@@ -77,14 +77,14 @@ export default class Preloader extends Scene {
 
         this.tweens.add({
             targets: logo,
-            y: "+=10", // Move 50 pixels down
-            duration: 700, // Animation duration in milliseconds
-            yoyo: true, // Reverse the animation
-            repeat: -1, // Repeat indefinitely
+            y: "+=10",
+            duration: 700,
+            yoyo: true,
+            repeat: -1,
         });
 
         this.time.delayedCall(2000, () => {
-            this.scene.start("KitchenTableScene");
+            this.scene.start("MenuScene");
         });
     }
 }

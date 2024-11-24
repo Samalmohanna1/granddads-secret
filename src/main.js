@@ -25,6 +25,11 @@ const config = {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
     },
+    text: {
+        style: {
+            fontFamily: "UbuntuMono",
+        },
+    },
 };
 
 const game = new Game(config);
