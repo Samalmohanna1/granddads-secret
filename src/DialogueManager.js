@@ -40,7 +40,8 @@ export default class DialogueManager extends CustomEventEmitter {
                     }
                 )
                 .setBackgroundColor("#000000")
-                .setOrigin(0);
+                .setOrigin(0)
+                .setDepth(50);
 
             this.currentDialogueText.setLineSpacing(12);
             this.currentDialogueText.setPadding(60);

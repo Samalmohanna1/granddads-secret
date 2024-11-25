@@ -14,7 +14,7 @@ export default class Preloader extends Scene {
             text: "Loading...",
             style: {
                 font: "24px UbuntuMono",
-                fill: "#ffffff",
+                fill: "#e1e1e1",
             },
         });
         loadingText.setOrigin(0.5, 0.5);
@@ -25,17 +25,13 @@ export default class Preloader extends Scene {
             text: "0%",
             style: {
                 font: "24px UbuntuMono",
-                fill: "#ffffff",
+                fill: "#e1e1e1",
             },
         });
         percentText.setOrigin(0.5, 0.5);
 
         this.load.on("progress", function (value) {
             percentText.setText(parseInt(value * 100) + "%");
-        });
-
-        this.load.on("fileprogress", function (file) {
-            loadingText.setText("Loading asset: " + file.key);
         });
 
         this.load.on("complete", function () {

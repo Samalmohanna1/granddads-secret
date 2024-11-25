@@ -132,7 +132,7 @@ export default class KitchenTableScene extends Scene {
             )
             .setOrigin(0.5)
             .setScale(0.2)
-            .setInteractive();
+            .setInteractive({ useHandCursor: false });
 
         this.createMapLocations();
 

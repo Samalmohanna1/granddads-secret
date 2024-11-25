@@ -10,9 +10,9 @@ class InventoryDisplay {
     setupDisplay() {
         const background = this.scene.add.rectangle(
             0,
-            this.scene.cameras.main.height - 100,
+            this.scene.cameras.main.height - 160,
             this.scene.cameras.main.width,
-            100,
+            160,
             0x090909,
             0.7
         );
@@ -20,9 +20,9 @@ class InventoryDisplay {
 
         this.scene.add.text(
             10,
-            this.scene.cameras.main.height - 90,
+            this.scene.cameras.main.height - 150,
             "Inventory:",
-            { fontSize: "24px", fill: "#ffffff" }
+            { font: "18px UbuntuMono", fill: "#e1e1e1" }
         );
     }
 
@@ -35,13 +35,13 @@ class InventoryDisplay {
         }
 
         items.forEach((item, index) => {
-            const x = 150 + index * 150;
-            const y = this.scene.cameras.main.height - 120;
+            const x = 50 + index * 100;
+            const y = this.scene.cameras.main.height - 80;
 
             if (index >= this.inventoryDisplayItems.length) {
                 const itemDisplay = this.scene.add
                     .image(x, y, item.key)
-                    .setScale(0.5)
+                    .setScale(0.25)
                     .setInteractive({
                         useHandCursor: true,
                     })
@@ -56,8 +56,8 @@ class InventoryDisplay {
                 });
 
                 const itemName = this.scene.add.text(x, y + 50, item.key, {
-                    fontSize: "16px",
-                    fill: "#ffffff",
+                    fontSize: "18px",
+                    fill: "#e1e1e1",
                     align: "center",
                 });
                 itemName.setOrigin(0.5, 0);
