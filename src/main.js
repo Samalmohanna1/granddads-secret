@@ -10,8 +10,8 @@ import GameOverScene from "./scenes/GameOver.js";
 
 const config = {
     type: AUTO,
-    width: 1900,
-    height: 900,
+    width: 1920,
+    height: 1080,
     scene: [
         Preloader,
         MenuScene,

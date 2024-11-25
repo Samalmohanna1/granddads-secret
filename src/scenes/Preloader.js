@@ -51,6 +51,8 @@ export default class Preloader extends Scene {
 
         this.load.image("studio-logo", "studio-logo.png");
 
+        this.load.image("menu", "scenes/menu.jpg");
+        this.load.image("gameover", "scenes/gameover.jpg");
         this.load.image("kitchen", "scenes/kitchen.jpg");
         this.load.image("kitchen-table", "scenes/kitchen-table.jpg");
         this.load.image("lake", "scenes/lake.jpg");
@@ -63,8 +65,10 @@ export default class Preloader extends Scene {
         this.load.image("map-full", "items/map-full.png");
         this.load.image("boat", "items/boat.png");
         this.load.image("journey1", "items/journey-1.png");
-        this.load.image("journey2", "items/journey-2.png");
         this.load.image("journey3", "items/journey-3.png");
+
+        this.load.image("startBtn", "ui/startBtn.png");
+        this.load.image("playAgainBtn", "ui/playAgainBtn.png");
     }
 
     create() {

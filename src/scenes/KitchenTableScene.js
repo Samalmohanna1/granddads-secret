@@ -118,7 +118,7 @@ export default class KitchenTableScene extends Scene {
         this.dialogueManager.addToQueue(
             "I've collected everything. I should check the map for the next location."
         );
-        gameMap.addLocation("lake", "LakeScene", 820, 520, "journey1");
+        gameMap.addLocation("lake", "LakeScene", 950, 530, "journey1");
     }
 
     displayMap() {

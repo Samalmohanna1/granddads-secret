@@ -84,7 +84,7 @@ export default class LakeScene extends Scene {
     }
 
     unlockNextLocation() {
-        gameMap.addLocation("cabin", "CabinScene", 1220, 420, "journey3");
+        gameMap.addLocation("cabin", "CabinScene", 955, 540, "journey3");
 
         this.collectedItems++;
 
