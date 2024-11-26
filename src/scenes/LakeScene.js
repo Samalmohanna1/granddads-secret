@@ -79,10 +79,12 @@ export default class LakeScene extends Scene {
 
         gameObject.on("pointerdown", () => {
             this.unlockNextLocation();
-            this.dialogueManager.addToQueue(
-                "I should check the map for my next destination."
-            );
-            this.displayMap();
+            if (!this.isMapDisplayed) {
+                this.displayMap();
+                this.dialogueManager.addToQueue(
+                    "I should check the map for my next destination."
+                );
+            }
         });
     }
 
@@ -111,12 +113,22 @@ export default class LakeScene extends Scene {
             .setScale(0.2)
             .setInteractive();
 
+        mapDisplay.on("pointerdown", () => {
+            mapDisplay.destroy();
+            this.isMapDisplayed = false;
+
+            // Destroy all location icons when closing the map
+            this.mapLocations.forEach((location) => location.destroy());
+            this.mapLocations.length = 0;
+        });
+
+        // Create and manage location icons
         const locations = gameMap.getAllLocations();
+
         locations.forEach((location) => {
             const locationIcon = this.add
                 .image(location.x, location.y, location.imageKey)
-                .setScale(0.2)
-                .setInteractive({ useHandCursor: true });
+                .setScale(0.2);
 
             if (
                 gameMap
@@ -125,25 +137,22 @@ export default class LakeScene extends Scene {
             ) {
                 locationIcon
                     .setInteractive({ useHandCursor: true })
-                    .on("pointerdown", () => {
+                    .on("pointerdown", (pointer, localX, localY, event) => {
+                        event.stopPropagation(); // Prevent map click event
                         gameMap.markLocationVisited(location.key);
+                        mapDisplay.destroy(); // Close map before starting new scene
+                        this.isMapDisplayed = false;
+                        locationIcon.destroy();
                         this.scene.start(location.scene);
                     });
+                locationIcon.input.priorityID = 1; // Higher priority for location icons
             } else {
                 locationIcon.setAlpha(0.5);
                 locationIcon.disableInteractive();
-                locationIcon.input.cursor = "default";
             }
 
+            // Add to map locations for management
             this.mapLocations.push(locationIcon);
-        });
-
-        mapDisplay.on("pointerdown", () => {
-            mapDisplay.destroy();
-            this.isMapDisplayed = false;
-
-            this.mapLocations.forEach((location) => location.destroy());
-            this.mapLocations.length = 0;
         });
     }
 }

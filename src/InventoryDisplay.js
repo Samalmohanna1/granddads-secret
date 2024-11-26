@@ -36,7 +36,7 @@ class InventoryDisplay {
         }
 
         items.forEach((item, index) => {
-            const x = 50 + index * 100;
+            const x = 80 + index * 100;
             const y = this.scene.cameras.main.height - 80;
 
             if (index >= this.inventoryDisplayItems.length) {

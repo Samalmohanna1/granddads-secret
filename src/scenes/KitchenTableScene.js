@@ -103,24 +103,36 @@ export default class KitchenTableScene extends Scene {
     }
 
     collectItem(gameObject, outline, item) {
-        this.dialogueManager.addToQueue(item.description);
-
-        Inventory.addItem(item);
-
+        // Destroy the game object and outline
         gameObject.destroy();
         outline.destroy();
 
+        // Add item to inventory
+        Inventory.addItem(item);
+
+        // Increment collected items count
         this.collectedItems++;
 
+        // Check if the collected item is the map
         if (item.key === "map") {
+            // Only display the map, do not show info card
             this.displayMap();
+        } else {
+            // Show info card for other items
+            if (this.inventoryManager) {
+                this.inventoryManager.showInfoCard(item);
+            } else {
+                console.warn("InventoryManager not found in the scene");
+            }
         }
 
+        // Check if all items have been collected
         if (this.collectedItems === this.totalItems) {
             this.allItemsCollected = true;
             this.events.emit("allItemsCollected");
         }
 
+        // Update inventory display
         if (this.inventoryDisplay) {
             this.inventoryDisplay.update();
         }
@@ -144,13 +156,12 @@ export default class KitchenTableScene extends Scene {
             )
             .setOrigin(0.5)
             .setScale(0.2)
-            .setInteractive({ useHandCursor: false });
+            .setInteractive();
+
+        // Add a click event to close the map when clicking anywhere on it
+        this.mapDisplay.on("pointerdown", this.closeMap, this);
 
         this.createMapLocations();
-
-        this.mapDisplay.on("pointerdown", () => {
-            this.closeMap();
-        });
     }
 
     createMapLocations() {
@@ -158,27 +169,36 @@ export default class KitchenTableScene extends Scene {
         this.mapLocations = locations.map((location) => {
             const locationIcon = this.add
                 .image(location.x, location.y, location.imageKey)
-                .setScale(0.2)
-                .setInteractive({
-                    useHandCursor: true,
-                });
+                .setScale(0.2);
 
             if (
                 gameMap
                     .getAvailableLocations()
                     .some((loc) => loc.key === location.key)
             ) {
-                locationIcon.on("pointerdown", (pointer) => {
+                locationIcon.setInteractive({
+                    useHandCursor: true,
+                    pixelPerfect: true,
+                });
+                locationIcon.on("pointerdown", () => {
                     gameMap.markLocationVisited(location.key);
+                    this.closeMap();
                     this.scene.start(location.scene);
                 });
+                locationIcon.input.priorityID = 1; // Higher priority
             } else {
                 locationIcon.setTint(0x808080);
-                locationIcon.setInteractive({ useHandCursor: false });
             }
 
             return locationIcon;
         });
+
+        // Ensure the map's click event has lower priority
+        if (this.mapDisplay) {
+            this.mapDisplay.setInteractive();
+            this.mapDisplay.on("pointerdown", this.closeMap, this);
+            this.mapDisplay.input.priorityID = 0; // Lower priority
+        }
     }
 
     closeMap() {
@@ -186,8 +206,10 @@ export default class KitchenTableScene extends Scene {
             this.mapDisplay.destroy();
             this.mapDisplay = null;
         }
-        this.mapLocations.forEach((location) => location.destroy());
-        this.mapLocations = [];
+        if (this.mapLocations) {
+            this.mapLocations.forEach((location) => location.destroy());
+            this.mapLocations = [];
+        }
     }
 
     update() {
