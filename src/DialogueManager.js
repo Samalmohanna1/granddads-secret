@@ -7,6 +7,7 @@ export default class DialogueManager extends CustomEventEmitter {
         this.queue = [];
         this.isDisplaying = false;
         this.currentDialogueText = null;
+        this.dismissButton = null;
     }
 
     addToQueue(text) {
@@ -19,6 +20,9 @@ export default class DialogueManager extends CustomEventEmitter {
     displayNext() {
         if (this.currentDialogueText) {
             this.currentDialogueText.destroy();
+            if (this.dismissButton) {
+                this.dismissButton.destroy();
+            }
         }
 
         if (this.queue.length > 0) {
@@ -46,9 +50,23 @@ export default class DialogueManager extends CustomEventEmitter {
             this.currentDialogueText.setLineSpacing(12);
             this.currentDialogueText.setPadding(60);
 
-            this.scene.time.delayedCall(2800, () => {
+            const buttonX = this.currentDialogueText.width - textPadding * 4.5;
+            const buttonY = this.currentDialogueText.height + textPadding * 1.2;
+            // Create a dismiss button
+            this.dismissButton = this.scene.add
+                .text(buttonX, buttonY, "continue", {
+                    font: "24px UbuntuMono",
+                    fill: "#e1e1e1",
+                })
+                .setInteractive({ useHandCursor: true })
+                .setDepth(51); // Ensure it's above the dialogue
+
+            this.dismissButton.setAlpha(0.8);
+            // Add click event to dismiss the dialogue
+            this.dismissButton.on("pointerdown", () => {
                 this.currentDialogueText.destroy();
                 this.currentDialogueText = null;
+                this.dismissButton.destroy();
                 this.displayNext();
             });
         } else {

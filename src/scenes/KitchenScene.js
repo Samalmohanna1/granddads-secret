@@ -44,7 +44,7 @@ export default class KitchenScene extends Scene {
         });
 
         this.dialogueManager.addToQueue(
-            "There's a gift on the table, I wonder who it's from."
+            "Happy birthday Ricky, there's a package on the table for you. Not sure who sent it, there's no return address."
         );
     }
 }

@@ -52,7 +52,7 @@ export default class KitchenTableScene extends Scene {
         items.forEach((item) => this.createCollectibleItem(item));
 
         this.dialogueManager.addToQueue(
-            "It's a gift from grandpa! Let's see what's inside."
+            "I wasn't expecting any packages, let's see what's inside. There's a letter here."
         );
 
         this.inventoryDisplay = new InventoryDisplay(this);
