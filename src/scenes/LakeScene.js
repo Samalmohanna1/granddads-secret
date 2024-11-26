@@ -1,6 +1,7 @@
 import { Scene } from "phaser";
 import DialogueManager from "../DialogueManager";
 import InventoryDisplay from "../InventoryDisplay";
+import InventoryManager from "../InventoryManager";
 import gameMap from "../GameMap";
 
 export default class LakeScene extends Scene {
@@ -16,6 +17,8 @@ export default class LakeScene extends Scene {
 
     create() {
         this.dialogueManager = new DialogueManager(this);
+        this.inventoryManager = new InventoryManager(this);
+
         this.add.image(0, 0, "lake").setOrigin(0);
 
         const items = [

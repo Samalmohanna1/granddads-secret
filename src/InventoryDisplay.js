@@ -31,7 +31,8 @@ class InventoryDisplay {
 
         while (this.inventoryDisplayItems.length > items.length) {
             const item = this.inventoryDisplayItems.pop();
-            item.destroy();
+            item.display.destroy();
+            item.text.destroy();
         }
 
         items.forEach((item, index) => {
@@ -78,10 +79,10 @@ class InventoryDisplay {
     }
 
     onItemClick(item) {
-        if (this.scene.dialogueManager) {
-            this.scene.dialogueManager.addToQueue(item.description);
+        if (this.scene.inventoryManager) {
+            this.scene.inventoryManager.showInfoCard(item);
         } else {
-            console.warn("DialogueManager not found in the scene");
+            console.warn("InventoryManager not found in the scene");
         }
     }
 }

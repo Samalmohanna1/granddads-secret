@@ -52,17 +52,15 @@ export default class DialogueManager extends CustomEventEmitter {
 
             const buttonX = this.currentDialogueText.width - textPadding * 4.5;
             const buttonY = this.currentDialogueText.height + textPadding * 1.2;
-            // Create a dismiss button
             this.dismissButton = this.scene.add
                 .text(buttonX, buttonY, "continue", {
                     font: "24px UbuntuMono",
                     fill: "#e1e1e1",
                 })
                 .setInteractive({ useHandCursor: true })
-                .setDepth(51); // Ensure it's above the dialogue
+                .setDepth(51);
 
             this.dismissButton.setAlpha(0.8);
-            // Add click event to dismiss the dialogue
             this.dismissButton.on("pointerdown", () => {
                 this.currentDialogueText.destroy();
                 this.currentDialogueText = null;

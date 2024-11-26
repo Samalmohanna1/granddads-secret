@@ -53,10 +53,14 @@ export default class Preloader extends Scene {
         this.load.image("kitchen-table", "scenes/kitchen-table.jpg");
         this.load.image("lake", "scenes/lake.jpg");
         this.load.image("cabin", "scenes/cabin.jpg");
+
         this.load.image("gift", "items/gift.jpg");
         this.load.image("hook", "items/hook.jpg");
-        this.load.image("letter", "items/letter-one.jpg");
+        this.load.image("hook-clue", "items/hook-clue.png");
+        this.load.image("letter-one", "items/letter-one.jpg");
+        this.load.image("letter-one-open", "items/letter-one-open.png");
         this.load.image("photo", "items/photo-fishing.jpg");
+        this.load.image("photo-fishing-clue", "items/photo-fishing-clue.png");
         this.load.image("map", "items/map-icon.jpg");
         this.load.image("map-full", "items/map-full.png");
         this.load.image("boat", "items/boat.png");
