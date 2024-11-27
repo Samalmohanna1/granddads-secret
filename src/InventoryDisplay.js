@@ -31,11 +31,20 @@ class InventoryDisplay {
     update() {
         const items = Inventory.getItems();
 
-        while (this.inventoryDisplayItems.length > items.length) {
-            const item = this.inventoryDisplayItems.pop();
-            item.display.destroy();
-            item.text.destroy();
-        }
+        this.inventoryDisplayItems = this.inventoryDisplayItems.filter(
+            (displayItem) => {
+                if (
+                    !items.some(
+                        (item) => item.key === displayItem.display.texture.key
+                    )
+                ) {
+                    displayItem.display.destroy();
+                    displayItem.text.destroy();
+                    return false;
+                }
+                return true;
+            }
+        );
 
         items.forEach((item, index) => {
             const x = 80 + index * 100;
@@ -52,16 +61,6 @@ class InventoryDisplay {
                     .setDepth(10);
 
                 this.setupDragEvents(itemDisplay, item);
-
-                itemDisplay.on("pointerup", (pointer) => {
-                    if (!pointer.isDragging) {
-                        if (item.key === "map") {
-                            this.scene.displayMap();
-                        } else {
-                            this.onItemClick(item);
-                        }
-                    }
-                });
 
                 const itemName = this.scene.add.text(x, y + 50, item.key, {
                     fontSize: "18px",
@@ -90,9 +89,13 @@ class InventoryDisplay {
     }
 
     setupDragEvents(itemDisplay, item) {
-        itemDisplay.on("dragstart", (pointer) => {
+        let isDragging = false;
+        let dragX = 0;
+        let dragY = 0;
+
+        itemDisplay.on("dragstart", (pointer, dragX, dragY) => {
+            isDragging = true;
             itemDisplay.setDepth(100);
-            this.scene.input.setDraggable(itemDisplay, false);
             this.scene.input.setDefaultCursor("grabbing");
         });
 
@@ -101,15 +104,27 @@ class InventoryDisplay {
             itemDisplay.y = pointer.y;
         });
 
-        itemDisplay.on("dragend", (pointer) => {
-            const inventoryItem = this.inventoryDisplayItems.find(
-                (i) => i.display === itemDisplay
-            );
-            itemDisplay.x = inventoryItem.originalX;
-            itemDisplay.y = inventoryItem.originalY;
-            itemDisplay.setDepth(10);
-            this.scene.input.setDraggable(itemDisplay, true);
+        itemDisplay.on("dragend", (pointer, dragX, dragY, dropped) => {
+            isDragging = false;
+            if (!dropped) {
+                const inventoryItem = this.inventoryDisplayItems.find(
+                    (i) => i.display === itemDisplay
+                );
+                itemDisplay.x = inventoryItem.originalX;
+                itemDisplay.y = inventoryItem.originalY;
+            }
+            itemDisplay.setDepth(20);
             this.scene.input.setDefaultCursor("default");
+        });
+
+        itemDisplay.on("pointerup", (pointer) => {
+            if (!isDragging) {
+                if (item.key === "map") {
+                    this.scene.displayMap();
+                } else {
+                    this.onItemClick(item);
+                }
+            }
         });
 
         itemDisplay.on("pointerover", () => {
@@ -117,7 +132,9 @@ class InventoryDisplay {
         });
 
         itemDisplay.on("pointerout", () => {
-            this.scene.input.setDefaultCursor("default");
+            if (!isDragging) {
+                this.scene.input.setDefaultCursor("default");
+            }
         });
     }
 

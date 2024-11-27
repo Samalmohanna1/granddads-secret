@@ -5,8 +5,9 @@ import Inventory from "../Inventory";
 export default class TallmanLakeScene extends BaseScene {
     constructor() {
         super("TallmanLakeScene");
-        this.totalItems = 1;
+        this.totalItems = 2;
         this.tackleboxUnlocked = false;
+        this.draggingHook = null;
     }
 
     create() {
@@ -18,43 +19,85 @@ export default class TallmanLakeScene extends BaseScene {
             dropZone: true,
         });
 
+        const items = [
+            {
+                key: "cabin-key",
+                x: this.tacklebox.x + 20,
+                y: this.tacklebox.y,
+                name: "Cabin Key",
+                description: "An old key, labeled Cabin.",
+                infoImageKey: "cabin-key",
+                clue: "An old key, labeled Cabin.",
+            },
+            {
+                key: "photo-cabin",
+                x: this.tacklebox.x,
+                y: this.tacklebox.y + 150,
+                name: "Cabin Photo",
+                description: "A photo of Grandpa in front of an old cabin.",
+                infoImageKey: "photo-cabin",
+                clue: "Some clue here.",
+            },
+        ];
+
+        this.draggingHook = this.add
+            .image(0, 0, "hook")
+            .setVisible(false)
+            .setScale(0.3);
+
         this.dialogueManager.addToQueue(
             "Wow, it looks like it's holding something special. A tackle box? I wonder what secrets are inside... But it's locked tight. I'll need to find a way to open it."
         );
 
+        this.input.on("dragstart", (pointer, gameObject) => {
+            if (gameObject.texture.key === "hook") {
+                this.draggingHook
+                    .setPosition(pointer.x, pointer.y)
+                    .setVisible(true);
+            }
+        });
+
         this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
-            gameObject.x = dragX;
-            gameObject.y = dragY;
+            if (gameObject.texture.key === "hook") {
+                this.draggingHook.setPosition(pointer.x, pointer.y);
+            }
         });
 
         this.input.on("dragenter", (pointer, gameObject, dropZone) => {
-            if (
-                gameObject.texture.key === "hook" &&
-                dropZone === this.tacklebox
-            ) {
-                this.tacklebox.setTint(0x00ff00);
-            }
+            // if (
+            //     gameObject.texture.key === "hook" &&
+            //     dropZone === this.tacklebox
+            // ) {
+            // }
         });
 
         this.input.on("dragleave", (pointer, gameObject, dropZone) => {
-            if (
-                gameObject.texture.key === "hook" &&
-                dropZone === this.tacklebox
-            ) {
-                this.tacklebox.clearTint();
-            }
+            // if (
+            //     gameObject.texture.key === "hook" &&
+            //     dropZone === this.tacklebox
+            // ) {
+            //     this.tacklebox.setTexture("tacklebox-open");
+            // }
         });
 
         this.input.on("drop", (pointer, gameObject, dropZone) => {
             if (
-                gameObject.texture.key === "hook" &&
-                dropZone === this.tacklebox
+                dropZone === this.tacklebox &&
+                gameObject.texture.key === "hook"
             ) {
+                this.tacklebox.setTexture("tacklebox-open").setScale(3);
                 this.unlockTacklebox();
+
+                items.forEach((item) => this.createCollectibleItem(item));
+                this.draggingHook.setVisible(false);
+                this.input.setDefaultCursor("default");
             }
         });
 
         this.input.on("dragend", (pointer, gameObject, dropped) => {
+            if (gameObject.texture.key === "hook") {
+                this.draggingHook.setVisible(false);
+            }
             if (!dropped) {
                 gameObject.x = gameObject.input.dragStartX;
                 gameObject.y = gameObject.input.dragStartY;
@@ -62,6 +105,28 @@ export default class TallmanLakeScene extends BaseScene {
         });
 
         this.events.on("updateInventory", this.updateDraggableItems, this);
+    }
+    collectItem(gameObject, outline, item) {
+        if (this.inventoryManager) {
+            this.inventoryManager.showInfoCard(item);
+        }
+
+        Inventory.addItem(item);
+
+        gameObject.destroy();
+        outline.destroy();
+
+        this.collectedItems++;
+
+        if (this.collectedItems === this.totalItems) {
+            this.allItemsCollected = true;
+            this.onAllItemsCollected();
+            this.events.emit("allItemsCollected");
+        }
+
+        if (this.inventoryDisplay) {
+            this.inventoryDisplay.update();
+        }
     }
 
     updateDraggableItems() {
@@ -77,11 +142,12 @@ export default class TallmanLakeScene extends BaseScene {
     unlockTacklebox() {
         if (!this.tackleboxUnlocked) {
             this.tackleboxUnlocked = true;
-            this.tacklebox.clearTint();
             this.dialogueManager.addToQueue(
                 "The tackle box unlocks with a satisfying click!"
             );
-            this.onAllItemsCollected();
+            Inventory.removeItem("hook");
+            this.events.emit("updateInventory");
+            this.input.setDefaultCursor("default");
         }
     }
 

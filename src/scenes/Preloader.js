@@ -66,6 +66,7 @@ export default class Preloader extends Scene {
         this.load.image("boat", "items/boat.png");
         this.load.image("tacklebox", "items/tacklebox.png");
         this.load.image("tacklebox-open", "items/tacklebox-open.png");
+        this.load.image("photo-cabin", "items/photo-cabin.png");
         this.load.image("cabin-key", "items/cabin-key.png");
         this.load.image("journey1", "items/journey-1.png");
         this.load.image("journey3", "items/journey-3.png");
