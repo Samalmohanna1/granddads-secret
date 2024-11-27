@@ -6,6 +6,10 @@ export default class GameOverScene extends Scene {
     }
 
     create() {
+        const audioManager = this.game.registry.get("audioManager");
+
+        audioManager.stopAmbientSound();
+
         this.add.image(0, 0, "gameover").setOrigin(0);
 
         const playAgainBtn = this.add

@@ -9,7 +9,14 @@ export default class CabinScene extends BaseScene {
     }
     create() {
         super.create();
+        const audioManager = this.game.registry.get("audioManager");
 
+        audioManager.stopAmbientSound();
+
+        audioManager.playAmbientSound("nature-two", {
+            loop: true,
+            volume: 0.1,
+        });
         this.add
             .image(0, 0, "cabin")
             .setOrigin(0)

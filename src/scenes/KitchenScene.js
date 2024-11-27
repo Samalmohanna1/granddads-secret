@@ -7,6 +7,12 @@ export default class KitchenScene extends Scene {
     }
 
     create() {
+        this.audioManager = this.game.registry.get("audioManager");
+        this.audioManager.playAmbientSound("city", {
+            loop: true,
+            volume: 0.1,
+        });
+
         this.dialogueManager = new DialogueManager(this);
 
         this.add.image(0, 0, "kitchen").setOrigin(0);

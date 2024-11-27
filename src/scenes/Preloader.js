@@ -73,6 +73,12 @@ export default class Preloader extends Scene {
 
         this.load.image("startBtn", "ui/startBtn.png");
         this.load.image("playAgainBtn", "ui/playAgainBtn.png");
+
+        this.load.audio("main-theme", "audio/main-theme.mp3");
+        this.load.audio("city", "audio/city.mp3");
+        this.load.audio("nature-one", "audio/nature-one.mp3");
+        this.load.audio("nature-two", "audio/nature-two.mp3");
+        this.load.audio("pickup", "audio/pickup-item.mp3");
     }
 
     create() {

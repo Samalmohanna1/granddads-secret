@@ -1,5 +1,4 @@
 import BaseScene from "./BaseScene";
-import gameMap from "../GameMap";
 
 export default class LakeScene extends BaseScene {
     constructor() {
@@ -9,6 +8,14 @@ export default class LakeScene extends BaseScene {
 
     create() {
         super.create();
+        const audioManager = this.game.registry.get("audioManager");
+
+        audioManager.stopAmbientSound();
+
+        audioManager.playAmbientSound("nature-one", {
+            loop: true,
+            volume: 0.1,
+        });
 
         this.add.image(0, 0, "lake").setOrigin(0);
 
@@ -35,9 +42,5 @@ export default class LakeScene extends BaseScene {
 
     onAllItemsCollected() {
         this.scene.start("TallmanLakeScene");
-        // gameMap.addLocation("cabin", "CabinScene", 955, 540, "journey3");
-        // this.dialogueManager.addToQueue(
-        //     "I should check the map, maybe the cabin is marked."
-        // );
     }
 }

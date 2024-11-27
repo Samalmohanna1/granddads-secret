@@ -34,6 +34,9 @@ const config = {
             fontFamily: "UbuntuMono",
         },
     },
+    audio: {
+        disableWebAudio: false,
+    },
 };
 
 const game = new Game(config);
