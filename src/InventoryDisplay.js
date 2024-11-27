@@ -4,11 +4,12 @@ class InventoryDisplay {
     constructor(scene) {
         this.scene = scene;
         this.inventoryDisplayItems = [];
+        this.background = null;
         this.setupDisplay();
     }
 
     setupDisplay() {
-        const background = this.scene.add.rectangle(
+        this.background = this.scene.add.rectangle(
             0,
             this.scene.cameras.main.height - 160,
             this.scene.cameras.main.width,
@@ -16,14 +17,16 @@ class InventoryDisplay {
             0x090909,
             0.7
         );
-        background.setOrigin(0, 0);
+        this.background.setOrigin(0, 0);
+        this.background.setDepth(9); // Set depth to ensure it's behind inventory items
 
-        this.scene.add.text(
+        this.inventoryLabel = this.scene.add.text(
             10,
             this.scene.cameras.main.height - 150,
             "Inventory:",
             { font: "18px UbuntuMono", fill: "#e1e1e1" }
         );
+        this.inventoryLabel.setDepth(10); // Set depth to ensure it's above the background
     }
 
     update() {

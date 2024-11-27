@@ -9,13 +9,18 @@ export default class InventoryManager extends CustomEventEmitter {
     }
 
     showInfoCard(item) {
+        // If the item is a map, don't show the info card
+        if (item.key === "map") {
+            return;
+        }
+
         if (this.currentInfoCard) {
             this.hideInfoCard();
         }
 
         const { width, height } = this.scene.sys.game.config;
 
-        this.currentInfoCard = this.scene.add
+        const background = this.scene.add
             .rectangle(width / 2, height / 2 - 100, 1200, 800, 0x0d1011, 1)
             .setOrigin(0.5);
 
@@ -50,12 +55,15 @@ export default class InventoryManager extends CustomEventEmitter {
         this.dismissButton.on("pointerdown", this.hideInfoCard.bind(this));
 
         this.currentInfoCard = this.scene.add.group([
-            this.currentInfoCard,
+            background,
             itemImage,
             itemClue,
             itemName,
             this.dismissButton,
         ]);
+
+        // Ensure the info card is displayed on top of other elements
+        this.currentInfoCard.setDepth(1000);
     }
 
     hideInfoCard() {
