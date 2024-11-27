@@ -18,15 +18,14 @@ class InventoryDisplay {
             0.7
         );
         this.background.setOrigin(0, 0);
-        this.background.setDepth(9); // Set depth to ensure it's behind inventory items
-
+        this.background.setDepth(9);
         this.inventoryLabel = this.scene.add.text(
             10,
             this.scene.cameras.main.height - 150,
             "Inventory:",
             { font: "18px UbuntuMono", fill: "#e1e1e1" }
         );
-        this.inventoryLabel.setDepth(10); // Set depth to ensure it's above the background
+        this.inventoryLabel.setDepth(10);
     }
 
     update() {
@@ -48,14 +47,19 @@ class InventoryDisplay {
                     .setScale(0.25)
                     .setInteractive({
                         useHandCursor: true,
+                        draggable: true,
                     })
                     .setDepth(10);
 
-                itemDisplay.on("pointerdown", () => {
-                    if (item.key === "map") {
-                        this.scene.displayMap();
-                    } else {
-                        this.onItemClick(item);
+                this.setupDragEvents(itemDisplay, item);
+
+                itemDisplay.on("pointerup", (pointer) => {
+                    if (!pointer.isDragging) {
+                        if (item.key === "map") {
+                            this.scene.displayMap();
+                        } else {
+                            this.onItemClick(item);
+                        }
                     }
                 });
 
@@ -70,6 +74,8 @@ class InventoryDisplay {
                 this.inventoryDisplayItems.push({
                     display: itemDisplay,
                     text: itemName,
+                    originalX: x,
+                    originalY: y,
                 });
             } else {
                 const inventoryItem = this.inventoryDisplayItems[index];
@@ -77,7 +83,41 @@ class InventoryDisplay {
                 inventoryItem.display.setPosition(x, y);
                 inventoryItem.text.setText(item.key);
                 inventoryItem.text.setPosition(x, y + 50);
+                inventoryItem.originalX = x;
+                inventoryItem.originalY = y;
             }
+        });
+    }
+
+    setupDragEvents(itemDisplay, item) {
+        itemDisplay.on("dragstart", (pointer) => {
+            itemDisplay.setDepth(100);
+            this.scene.input.setDraggable(itemDisplay, false);
+            this.scene.input.setDefaultCursor("grabbing");
+        });
+
+        itemDisplay.on("drag", (pointer, dragX, dragY) => {
+            itemDisplay.x = pointer.x;
+            itemDisplay.y = pointer.y;
+        });
+
+        itemDisplay.on("dragend", (pointer) => {
+            const inventoryItem = this.inventoryDisplayItems.find(
+                (i) => i.display === itemDisplay
+            );
+            itemDisplay.x = inventoryItem.originalX;
+            itemDisplay.y = inventoryItem.originalY;
+            itemDisplay.setDepth(10);
+            this.scene.input.setDraggable(itemDisplay, true);
+            this.scene.input.setDefaultCursor("default");
+        });
+
+        itemDisplay.on("pointerover", () => {
+            this.scene.input.setDefaultCursor("grab");
+        });
+
+        itemDisplay.on("pointerout", () => {
+            this.scene.input.setDefaultCursor("default");
         });
     }
 
