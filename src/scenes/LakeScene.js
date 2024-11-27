@@ -34,10 +34,10 @@ export default class LakeScene extends BaseScene {
     }
 
     onAllItemsCollected() {
-        gameMap.addLocation("cabin", "CabinScene", 955, 540, "journey3");
-        this.dialogueManager.addToQueue(
-            "I should check the map, maybe the cabin is marked."
-        );
-        this.displayMap();
+        this.scene.start("TallmanLakeScene");
+        // gameMap.addLocation("cabin", "CabinScene", 955, 540, "journey3");
+        // this.dialogueManager.addToQueue(
+        //     "I should check the map, maybe the cabin is marked."
+        // );
     }
 }

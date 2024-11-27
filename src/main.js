@@ -7,6 +7,7 @@ import LakeScene from "./scenes/LakeScene.js";
 import CabinScene from "./scenes/CabinScene.js";
 import Preloader from "./scenes/Preloader.js";
 import GameOverScene from "./scenes/GameOver.js";
+import TallmanLakeScene from "./scenes/TallmanLakeScene.js";
 
 const config = {
     type: AUTO,
@@ -18,6 +19,7 @@ const config = {
         KitchenScene,
         KitchenTableScene,
         LakeScene,
+        TallmanLakeScene,
         CabinScene,
         GameOverScene,
     ],
