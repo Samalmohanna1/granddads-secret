@@ -8,6 +8,7 @@ import CabinScene from "./scenes/CabinScene.js";
 import Preloader from "./scenes/Preloader.js";
 import GameOverScene from "./scenes/GameOver.js";
 import TallmanLakeScene from "./scenes/TallmanLakeScene.js";
+import InsideCabinScene from "./scenes/InsideCabinScene.js";
 
 const config = {
     type: AUTO,
@@ -21,6 +22,7 @@ const config = {
         LakeScene,
         TallmanLakeScene,
         CabinScene,
+        InsideCabinScene,
         GameOverScene,
     ],
     scale: {
