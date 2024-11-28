@@ -107,6 +107,10 @@ export default class TallmanLakeScene extends BaseScene {
         this.events.on("updateInventory", this.updateDraggableItems, this);
     }
     collectItem(gameObject, outline, item) {
+        this.audioManager.playSound("pickup", {
+            loop: false,
+            volume: 0.1,
+        });
         if (this.inventoryManager) {
             this.inventoryManager.showInfoCard(item);
         }

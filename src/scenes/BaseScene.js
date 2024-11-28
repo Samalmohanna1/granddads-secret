@@ -19,6 +19,7 @@ export default class BaseScene extends Scene {
         this.dialogueManager = new DialogueManager(this);
         this.inventoryManager = new InventoryManager(this);
         this.inventoryDisplay = new InventoryDisplay(this);
+        this.audioManager = this.game.registry.get("audioManager");
 
         this.setupInventoryDisplay();
     }
@@ -80,10 +81,6 @@ export default class BaseScene extends Scene {
     }
 
     collectItem(gameObject, outline, item) {
-        if (this.inventoryManager) {
-            this.inventoryManager.showInfoCard(item);
-        }
-
         Inventory.addItem(item);
 
         gameObject.destroy();
