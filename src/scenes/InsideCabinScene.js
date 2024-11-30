@@ -13,8 +13,13 @@ export default class InsideCabinScene extends BaseScene {
         super.create();
 
         this.add.image(0, 0, "cabin-inside").setOrigin(0);
+        this.can = this.add.image(
+            this.cameras.main.width / 2 - 180,
+            this.cameras.main.height / 2 - 250,
+            "can"
+        );
 
-        this.can = this.add
+        this.canZone = this.add
             .zone(
                 this.cameras.main.width / 2 - 200,
                 this.cameras.main.height / 2 - 300,
@@ -46,11 +51,13 @@ export default class InsideCabinScene extends BaseScene {
 
         this.input.on("drop", (pointer, gameObject, dropZone) => {
             if (
-                dropZone === this.can &&
+                dropZone === this.canZone &&
                 gameObject.texture.key === "can-opener"
             ) {
-                this.openCan();
                 gameObject.destroy();
+                this.draggingOpener.setVisible(false);
+                this.can.setTexture("can-opened");
+                this.openCan();
             }
         });
 
@@ -67,7 +74,36 @@ export default class InsideCabinScene extends BaseScene {
             Inventory.removeItem("can-opener");
             this.events.emit("updateInventory");
 
-            this.scene.start("GameOverScene");
+            const finalLetter = this.add
+                .image(
+                    this.cameras.main.width / 2,
+                    this.cameras.main.height / 2,
+                    "letter-two-open"
+                )
+                .setOrigin(0.5);
+
+            finalLetter.setAlpha(0);
+            this.tweens.add({
+                targets: finalLetter,
+                alpha: 1,
+                duration: 1000,
+                ease: "Power2",
+            });
+
+            finalLetter.setInteractive();
+            finalLetter.on("pointerdown", () => {
+                this.tweens.add({
+                    targets: finalLetter,
+                    alpha: 0,
+                    duration: 500,
+                    onComplete: () => {
+                        finalLetter.destroy();
+                        this.scene.start("GameOverScene");
+                    },
+                });
+            });
+
+            this.dialogueManager.addToQueue("I found Grandpa's final letter!");
         }
     }
 

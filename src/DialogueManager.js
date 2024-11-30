@@ -43,7 +43,7 @@ export default class DialogueManager extends CustomEventEmitter {
                         wordWrap: { width: 650 },
                     }
                 )
-                .setBackgroundColor("#000000")
+                .setBackgroundColor("#0d1011")
                 .setOrigin(0)
                 .setDepth(50);
 

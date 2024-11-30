@@ -13,7 +13,6 @@ export default class MenuScene extends Scene {
 
         this.game.registry.set("audioManager", this.audioManager);
 
-        //this.startBackgroundMusic();
         this.add.image(0, 0, "menu").setOrigin(0);
         const startBtn = this.add
             .image(740, 650, "startBtn")

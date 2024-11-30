@@ -62,18 +62,19 @@ export default class Preloader extends Scene {
         this.load.image("hook-clue", "items/hook-clue.png");
         this.load.image("letter-one", "items/letter-one.png");
         this.load.image("letter-one-open", "items/letter-one-open.png");
+        this.load.image("letter-two-open", "items/letter-two-open.png");
         this.load.image("photo", "items/photo-fishing.png");
         this.load.image("photo-fishing-clue", "items/photo-fishing-clue.png");
         this.load.image("map", "items/map-icon.png");
         this.load.image("map-full", "items/map-full.png");
-        this.load.image("boat", "items/boat.png");
         this.load.image("photo-cabin", "items/photo-cabin.png");
         this.load.image("photo-cabin-clue", "items/photo-cabin-clue.png");
         this.load.image("can-opener", "items/can-opener.png");
         this.load.image("can-opener-clue", "items/can-opener-clue.png");
-        this.load.image("cabin-door", "items/cabin-door.png");
         this.load.image("cabin-key", "items/cabin-key.png");
         this.load.image("cabin-key-clue", "items/cabin-key-clue.png");
+        this.load.image("can", "items/can.png");
+        this.load.image("can-opened", "items/can-opened.png");
         this.load.image("journey1", "items/journey-1.png");
         this.load.image("journey3", "items/journey-3.png");
 
@@ -103,7 +104,7 @@ export default class Preloader extends Scene {
             repeat: -1,
         });
 
-        this.time.delayedCall(2000, () => {
+        this.time.delayedCall(1500, () => {
             this.scene.start("MenuScene");
         });
     }

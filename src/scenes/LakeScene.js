@@ -20,14 +20,16 @@ export default class LakeScene extends BaseScene {
         this.add.image(0, 0, "lake").setOrigin(0);
 
         const boat = this.add
-            .image(
-                this.cameras.main.width - 600,
-                this.cameras.main.height - 200,
-                "boat"
+            .zone(
+                this.cameras.main.width - 650,
+                this.cameras.main.height - 260,
+                250,
+                700
             )
             .setInteractive({
                 useHandCursor: true,
-            });
+            })
+            .setRotation(Phaser.Math.DegToRad(105));
 
         boat.on("pointerdown", () => {
             this.allItemsCollected = true;

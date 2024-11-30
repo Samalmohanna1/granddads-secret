@@ -102,6 +102,14 @@ export default class BaseScene extends Scene {
             .setScale(0.2)
             .setInteractive();
 
+        this.mapDisplay.setAlpha(0);
+        this.tweens.add({
+            targets: this.mapDisplay,
+            alpha: 1,
+            duration: 500,
+            ease: "Power2",
+        });
+
         this.mapDisplay.on("pointerdown", this.closeMap, this);
 
         this.createMapLocations();

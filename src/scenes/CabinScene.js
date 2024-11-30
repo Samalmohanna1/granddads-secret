@@ -58,8 +58,9 @@ export default class CabinScene extends BaseScene {
                 dropZone === this.door &&
                 gameObject.texture.key === "cabin-key"
             ) {
-                this.unlockDoor();
                 gameObject.destroy();
+                this.draggingKey.setVisible(false);
+                this.unlockDoor();
             }
         });
 

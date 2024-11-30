@@ -14,7 +14,7 @@ class InventoryDisplay {
             this.scene.cameras.main.height - 160,
             this.scene.cameras.main.width,
             160,
-            0x090909,
+            0x0d1011,
             0.7
         );
         this.background.setOrigin(0, 0);

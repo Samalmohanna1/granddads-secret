@@ -61,6 +61,14 @@ export default class InventoryManager extends CustomEventEmitter {
             this.dismissButton,
         ]);
 
+        this.currentInfoCard.setAlpha(0);
+        this.scene.tweens.add({
+            targets: this.currentInfoCard.getChildren(),
+            alpha: 1,
+            duration: 500,
+            ease: "Power2",
+        });
+
         this.currentInfoCard.setDepth(1000);
     }
 
