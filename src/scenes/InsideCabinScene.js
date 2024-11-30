@@ -11,6 +11,7 @@ export default class InsideCabinScene extends BaseScene {
 
     create() {
         super.create();
+        this.input.setDefaultCursor("default");
 
         this.add.image(0, 0, "cabin-inside").setOrigin(0);
         this.can = this.add.image(
@@ -42,10 +43,12 @@ export default class InsideCabinScene extends BaseScene {
                 this.draggingOpener
                     .setPosition(pointer.x, pointer.y)
                     .setVisible(true);
+
+                this.input.setDefaultCursor("grabbing");
             }
         });
 
-        this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+        this.input.on("drag", (pointer, gameObject) => {
             if (gameObject.texture.key === "can-opener") {
                 this.draggingOpener.setPosition(pointer.x, pointer.y);
             }
@@ -58,6 +61,8 @@ export default class InsideCabinScene extends BaseScene {
             ) {
                 gameObject.destroy();
                 this.draggingOpener.setVisible(false);
+
+                this.input.setDefaultCursor("");
                 this.can.setTexture("can-opened");
                 this.openCan();
             }
@@ -68,8 +73,14 @@ export default class InsideCabinScene extends BaseScene {
                 gameObject.x = gameObject.input.dragStartX;
                 gameObject.y = gameObject.input.dragStartY;
             }
+
+            this.input.setDefaultCursor("");
+            if (this.draggingOpener.visible) {
+                this.draggingOpener.setVisible(false);
+            }
         });
     }
+
     openCan() {
         if (!this.canOpened) {
             this.canOpened = true;

@@ -11,21 +11,21 @@ class InventoryDisplay {
     setupDisplay() {
         this.background = this.scene.add.rectangle(
             0,
-            this.scene.cameras.main.height - 160,
+            this.scene.cameras.main.height - 130,
             this.scene.cameras.main.width,
-            160,
+            130,
             0x0d1011,
             0.7
         );
         this.background.setOrigin(0, 0);
         this.background.setDepth(9);
-        this.inventoryLabel = this.scene.add.text(
-            10,
-            this.scene.cameras.main.height - 150,
-            "Inventory:",
-            { font: "18px UbuntuMono", fill: "#e1e1e1" }
-        );
-        this.inventoryLabel.setDepth(10);
+        // this.inventoryLabel = this.scene.add.text(
+        //     10,
+        //     this.scene.cameras.main.height - 150,
+        //     "Inventory:",
+        //     { font: "18px UbuntuMono", fill: "#0d1011" }
+        // );
+        // this.inventoryLabel.setDepth(10);
     }
 
     update() {
@@ -47,12 +47,12 @@ class InventoryDisplay {
         );
 
         items.forEach((item, index) => {
-            const x = 80 + index * 100;
+            const x = 80 + index * 115;
             const y = this.scene.cameras.main.height - 80;
 
             if (index >= this.inventoryDisplayItems.length) {
                 const itemDisplay = this.scene.add
-                    .image(x, y, item.key)
+                    .image(x, y + 30, item.key)
                     .setScale(0.25)
                     .setInteractive({
                         useHandCursor: true,
@@ -62,8 +62,8 @@ class InventoryDisplay {
 
                 this.setupDragEvents(itemDisplay, item);
 
-                const itemName = this.scene.add.text(x, y + 50, item.key, {
-                    fontSize: "18px",
+                const itemName = this.scene.add.text(x, y - 30, item.key, {
+                    fontSize: "16px",
                     fill: "#e1e1e1",
                     align: "center",
                 });
@@ -79,9 +79,9 @@ class InventoryDisplay {
             } else {
                 const inventoryItem = this.inventoryDisplayItems[index];
                 inventoryItem.display.setTexture(item.key);
-                inventoryItem.display.setPosition(x, y);
+                inventoryItem.display.setPosition(x, y + 30);
                 inventoryItem.text.setText(item.key);
-                inventoryItem.text.setPosition(x, y + 50);
+                inventoryItem.text.setPosition(x, y - 40);
                 inventoryItem.originalX = x;
                 inventoryItem.originalY = y;
             }
