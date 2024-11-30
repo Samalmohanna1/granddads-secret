@@ -22,7 +22,7 @@ export default class KitchenTableScene extends BaseScene {
                 description:
                     "A rusty old fishing hook. It looks too big for river fishing.",
                 infoImageKey: "hook-clue",
-                clue: "There's a key hidden in the hook.",
+                clue: "You twist the hook and find a hidden key.",
             },
             {
                 key: "letter-one",
@@ -31,7 +31,7 @@ export default class KitchenTableScene extends BaseScene {
                 name: "Grandpa's Letter",
                 description: "A letter from Grandpa.",
                 infoImageKey: "letter-one-open",
-                clue: "Go to the special fishing spot.",
+                clue: "The letter says my adventure starts at Grandpa's favorite fishing spot.",
             },
             {
                 key: "photo",
@@ -60,7 +60,7 @@ export default class KitchenTableScene extends BaseScene {
         );
     }
 
-    collectItem(gameObject, outline, item) {
+    collectItem(gameObject, item) {
         this.audioManager.playSound("pickup", {
             loop: false,
             volume: 0.1,
@@ -76,7 +76,6 @@ export default class KitchenTableScene extends BaseScene {
         Inventory.addItem(item);
 
         gameObject.destroy();
-        outline.destroy();
 
         this.collectedItems++;
 

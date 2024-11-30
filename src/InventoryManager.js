@@ -9,7 +9,6 @@ export default class InventoryManager extends CustomEventEmitter {
     }
 
     showInfoCard(item) {
-        // If the item is a map, don't show the info card
         if (item.key === "map") {
             return;
         }
@@ -45,7 +44,7 @@ export default class InventoryManager extends CustomEventEmitter {
             .setOrigin(0);
 
         this.dismissButton = this.scene.add
-            .text(width / 2 + 300, height / 2 + 200, "Close", {
+            .text(width / 2 + 480, 100, "Close", {
                 font: "24px UbuntuMono",
                 fill: "#e1e1e1",
             })
@@ -62,7 +61,6 @@ export default class InventoryManager extends CustomEventEmitter {
             this.dismissButton,
         ]);
 
-        // Ensure the info card is displayed on top of other elements
         this.currentInfoCard.setDepth(1000);
     }
 

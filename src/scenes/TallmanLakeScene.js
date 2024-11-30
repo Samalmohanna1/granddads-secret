@@ -5,7 +5,7 @@ import Inventory from "../Inventory";
 export default class TallmanLakeScene extends BaseScene {
     constructor() {
         super("TallmanLakeScene");
-        this.totalItems = 2;
+        this.totalItems = 3;
         this.tackleboxUnlocked = false;
         this.draggingHook = null;
     }
@@ -13,30 +13,38 @@ export default class TallmanLakeScene extends BaseScene {
     create() {
         super.create();
 
-        this.add.image(0, 30, "lake").setOrigin(0.3).setScale(1.8);
+        this.background = this.add.image(0, 0, "tallman").setOrigin(0);
 
-        this.tacklebox = this.add.image(800, 600, "tacklebox").setInteractive({
-            dropZone: true,
-        });
+        this.tacklebox = this.add.zone(950, 720, 200, 200).setDropZone();
 
         const items = [
             {
                 key: "cabin-key",
-                x: this.tacklebox.x + 20,
-                y: this.tacklebox.y,
+                x: this.tacklebox.x - 100,
+                y: this.tacklebox.y + 60,
                 name: "Cabin Key",
                 description: "An old key, labeled Cabin.",
-                infoImageKey: "cabin-key",
-                clue: "An old key, labeled Cabin.",
+                infoImageKey: "cabin-key-clue",
+                clue: "An old key.",
             },
             {
                 key: "photo-cabin",
-                x: this.tacklebox.x,
-                y: this.tacklebox.y + 150,
+                x: this.tacklebox.x - 280,
+                y: this.tacklebox.y - 220,
                 name: "Cabin Photo",
                 description: "A photo of Grandpa in front of an old cabin.",
-                infoImageKey: "photo-cabin",
-                clue: "Some clue here.",
+                infoImageKey: "photo-cabin-clue",
+                clue: "A photo of grandpa Rick in front of a cabin.",
+            },
+
+            {
+                key: "can-opener",
+                x: this.tacklebox.x + 100,
+                y: this.tacklebox.y - 170,
+                name: "Can Opener",
+                description: "A can opener.",
+                infoImageKey: "can-opener-clue",
+                clue: "A can opener. Grandpa loved using canned worms for bait.",
             },
         ];
 
@@ -46,7 +54,7 @@ export default class TallmanLakeScene extends BaseScene {
             .setScale(0.3);
 
         this.dialogueManager.addToQueue(
-            "Wow, it looks like it's holding something special. A tackle box? I wonder what secrets are inside... But it's locked tight. I'll need to find a way to open it."
+            "Wow, this things been here a while. A tackle box? It's screwed to the post, I need to open it here. I should try that hook key."
         );
 
         this.input.on("dragstart", (pointer, gameObject) => {
@@ -63,29 +71,12 @@ export default class TallmanLakeScene extends BaseScene {
             }
         });
 
-        this.input.on("dragenter", (pointer, gameObject, dropZone) => {
-            // if (
-            //     gameObject.texture.key === "hook" &&
-            //     dropZone === this.tacklebox
-            // ) {
-            // }
-        });
-
-        this.input.on("dragleave", (pointer, gameObject, dropZone) => {
-            // if (
-            //     gameObject.texture.key === "hook" &&
-            //     dropZone === this.tacklebox
-            // ) {
-            //     this.tacklebox.setTexture("tacklebox-open");
-            // }
-        });
-
         this.input.on("drop", (pointer, gameObject, dropZone) => {
             if (
                 dropZone === this.tacklebox &&
                 gameObject.texture.key === "hook"
             ) {
-                this.tacklebox.setTexture("tacklebox-open").setScale(3);
+                this.background.setTexture("tallman-open");
                 this.unlockTacklebox();
 
                 items.forEach((item) => this.createCollectibleItem(item));
@@ -106,7 +97,7 @@ export default class TallmanLakeScene extends BaseScene {
 
         this.events.on("updateInventory", this.updateDraggableItems, this);
     }
-    collectItem(gameObject, outline, item) {
+    collectItem(gameObject, item) {
         this.audioManager.playSound("pickup", {
             loop: false,
             volume: 0.1,
@@ -118,7 +109,6 @@ export default class TallmanLakeScene extends BaseScene {
         Inventory.addItem(item);
 
         gameObject.destroy();
-        outline.destroy();
 
         this.collectedItems++;
 
@@ -158,7 +148,7 @@ export default class TallmanLakeScene extends BaseScene {
     onAllItemsCollected() {
         gameMap.addLocation("cabin", "CabinScene", 955, 540, "journey3");
         this.dialogueManager.addToQueue(
-            "I should check the map, maybe the cabin is marked."
+            "I should check the map for the cabin."
         );
     }
 }

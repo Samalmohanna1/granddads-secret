@@ -57,34 +57,23 @@ export default class BaseScene extends Scene {
                 useHandCursor: true,
             });
 
-        const outline = this.add.graphics();
-        outline.lineStyle(6, 0xf96f28);
-        outline.strokeRect(
-            item.x - gameObject.width / 2 - 3,
-            item.y - gameObject.height / 2 - 3,
-            gameObject.width + 6,
-            gameObject.height + 6
-        );
-        outline.setVisible(false);
-
         gameObject.on("pointerover", () => {
-            outline.setVisible(true);
+            gameObject.setTint(0xccffee);
         });
 
         gameObject.on("pointerout", () => {
-            outline.setVisible(false);
+            gameObject.clearTint();
         });
 
         gameObject.on("pointerdown", () => {
-            this.collectItem(gameObject, outline, item);
+            this.collectItem(gameObject, item);
         });
     }
 
-    collectItem(gameObject, outline, item) {
+    collectItem(gameObject, item) {
         Inventory.addItem(item);
 
         gameObject.destroy();
-        outline.destroy();
 
         this.collectedItems++;
 

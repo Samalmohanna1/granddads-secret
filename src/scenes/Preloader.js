@@ -52,23 +52,28 @@ export default class Preloader extends Scene {
         this.load.image("kitchen", "scenes/kitchen.jpg");
         this.load.image("kitchen-table", "scenes/kitchen-table.jpg");
         this.load.image("lake", "scenes/lake.jpg");
+        this.load.image("tallman", "scenes/tallman.jpg");
+        this.load.image("tallman-open", "scenes/tallman-open.jpg");
         this.load.image("cabin", "scenes/cabin.jpg");
+        this.load.image("cabin-inside", "scenes/cabin-inside.jpg");
 
-        this.load.image("gift", "items/gift.jpg");
-        this.load.image("hook", "items/hook.jpg");
+        this.load.image("gift", "items/gift.png");
+        this.load.image("hook", "items/hook.png");
         this.load.image("hook-clue", "items/hook-clue.png");
-        this.load.image("letter-one", "items/letter-one.jpg");
+        this.load.image("letter-one", "items/letter-one.png");
         this.load.image("letter-one-open", "items/letter-one-open.png");
-        this.load.image("photo", "items/photo-fishing.jpg");
+        this.load.image("photo", "items/photo-fishing.png");
         this.load.image("photo-fishing-clue", "items/photo-fishing-clue.png");
-        this.load.image("map", "items/map-icon.jpg");
+        this.load.image("map", "items/map-icon.png");
         this.load.image("map-full", "items/map-full.png");
         this.load.image("boat", "items/boat.png");
-        this.load.image("tacklebox", "items/tacklebox.png");
-        this.load.image("tacklebox-open", "items/tacklebox-open.png");
         this.load.image("photo-cabin", "items/photo-cabin.png");
+        this.load.image("photo-cabin-clue", "items/photo-cabin-clue.png");
+        this.load.image("can-opener", "items/can-opener.png");
+        this.load.image("can-opener-clue", "items/can-opener-clue.png");
         this.load.image("cabin-door", "items/cabin-door.png");
         this.load.image("cabin-key", "items/cabin-key.png");
+        this.load.image("cabin-key-clue", "items/cabin-key-clue.png");
         this.load.image("journey1", "items/journey-1.png");
         this.load.image("journey3", "items/journey-3.png");
 

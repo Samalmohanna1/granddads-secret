@@ -7,6 +7,7 @@ export default class CabinScene extends BaseScene {
         super("CabinScene");
         this.totalItems = 0;
         this.doorUnlocked = false;
+        this.draggingKey = null;
     }
 
     create() {
@@ -22,41 +23,36 @@ export default class CabinScene extends BaseScene {
         this.add.image(0, 0, "cabin").setOrigin(0);
 
         this.door = this.add
-            .image(
-                this.cameras.main.width / 2,
-                this.cameras.main.height / 2,
-                "cabin-door"
+            .rectangle(
+                this.cameras.main.width / 2 + 250,
+                this.cameras.main.height / 2 + 200,
+                200,
+                250,
+                0xfff000,
+                0.5
             )
             .setInteractive({ dropZone: true });
+
+        this.draggingKey = this.add
+            .image(0, 0, "cabin-key")
+            .setVisible(false)
+            .setScale(0.5);
 
         this.dialogueManager.addToQueue(
             "An old cabin, I wonder if Grandpa used it while out hunting. The door seems to be locked."
         );
 
-        this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
-            gameObject.x = dragX;
-            gameObject.y = dragY;
-        });
-
         this.input.on("dragstart", (pointer, gameObject) => {
-            this.children.bringToTop(gameObject);
-        });
-
-        this.input.on("dragenter", (pointer, gameObject, dropZone) => {
-            if (
-                gameObject.texture.key === "cabin-key" &&
-                dropZone === this.door
-            ) {
-                // this.door.setTint(0x00ff00);
+            if (gameObject.texture.key === "cabin-key") {
+                this.draggingKey
+                    .setPosition(pointer.x, pointer.y)
+                    .setVisible(true);
             }
         });
 
-        this.input.on("dragleave", (pointer, gameObject, dropZone) => {
-            if (
-                gameObject.texture.key === "cabin-key" &&
-                dropZone === this.door
-            ) {
-                // this.door.clearTint();
+        this.input.on("drag", (pointer, gameObject, dragX, dragY) => {
+            if (gameObject.texture.key === "cabin-key") {
+                this.draggingKey.setPosition(pointer.x, pointer.y);
             }
         });
 
@@ -78,36 +74,9 @@ export default class CabinScene extends BaseScene {
         });
     }
 
-    // collectItem(gameObject, outline, item) {
-    //     this.audioManager.playSound("pickup", { loop: false, volume: 0.1 });
-
-    //     if (this.inventoryManager) {
-    //         this.inventoryManager.showInfoCard(item);
-    //     }
-
-    //     Inventory.addItem(item);
-    //     gameObject.destroy();
-    //     outline.destroy();
-
-    //     this.collectedItems++;
-    //     this.dialogueManager.addToQueue(`I found a ${item.name}. ${item.clue}`);
-
-    //     if (this.inventoryDisplay) {
-    //         this.inventoryDisplay.update();
-    //     }
-
-    //     const keyObject = this.children.getByName("cabin-key");
-    //     if (keyObject) {
-    //         keyObject.setInteractive({ draggable: true });
-    //     }
-    // }
-
     unlockDoor() {
         if (!this.doorUnlocked) {
             this.doorUnlocked = true;
-            // this.dialogueManager.addToQueue(
-            //     "The key fits! The cabin door is now unlocked."
-            // );
             Inventory.removeItem("cabin-key");
             this.events.emit("updateInventory");
 
