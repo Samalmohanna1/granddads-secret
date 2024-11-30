@@ -38,7 +38,7 @@ export default class LakeScene extends BaseScene {
         });
 
         this.dialogueManager.addToQueue(
-            "There's something tall out in the water, I could use this boat to reach it."
+            "There's something tall out in the water, I could use this canoe to reach it."
         );
     }
 

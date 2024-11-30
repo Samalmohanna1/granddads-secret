@@ -33,7 +33,9 @@ export default class InsideCabinScene extends BaseScene {
             .setVisible(false)
             .setScale(0.3);
 
-        this.dialogueManager.addToQueue("It's pretty dusty in here.");
+        this.dialogueManager.addToQueue(
+            "It's pretty dusty in here. Hmm I wonder where the next clue is."
+        );
 
         this.input.on("dragstart", (pointer, gameObject) => {
             if (gameObject.texture.key === "can-opener") {
@@ -103,7 +105,7 @@ export default class InsideCabinScene extends BaseScene {
                 });
             });
 
-            this.dialogueManager.addToQueue("I found Grandpa's final letter!");
+            this.dialogueManager.addToQueue("I found another letter!");
         }
     }
 
