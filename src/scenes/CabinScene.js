@@ -1,6 +1,5 @@
 import BaseScene from "./BaseScene";
 import Inventory from "../Inventory";
-import gameMap from "../GameMap";
 
 export default class CabinScene extends BaseScene {
     constructor() {
@@ -23,20 +22,18 @@ export default class CabinScene extends BaseScene {
         this.add.image(0, 0, "cabin").setOrigin(0);
 
         this.door = this.add
-            .rectangle(
+            .zone(
                 this.cameras.main.width / 2 + 250,
                 this.cameras.main.height / 2 + 200,
                 200,
-                250,
-                0xfff000,
-                0.5
+                250
             )
-            .setInteractive({ dropZone: true });
+            .setDropZone();
 
         this.draggingKey = this.add
             .image(0, 0, "cabin-key")
             .setVisible(false)
-            .setScale(0.5);
+            .setScale(0.3);
 
         this.dialogueManager.addToQueue(
             "An old cabin, I wonder if Grandpa used it while out hunting. The door seems to be locked."

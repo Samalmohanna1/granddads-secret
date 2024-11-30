@@ -69,9 +69,6 @@ export default class KitchenTableScene extends BaseScene {
         if (this.inventoryManager) {
             this.inventoryManager.showInfoCard(item);
         }
-        if (this.inventoryManager) {
-            this.inventoryManager.showInfoCard(item);
-        }
 
         Inventory.addItem(item);
 
