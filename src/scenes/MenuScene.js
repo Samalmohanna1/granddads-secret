@@ -9,7 +9,7 @@ export default class MenuScene extends Scene {
     create() {
         this.audioManager = new AudioManager(this);
 
-        this.audioManager.playBackgroundMusic("main-theme", { volume: 0 });
+        this.audioManager.playBackgroundMusic("main-theme", { volume: 0.3 });
 
         this.game.registry.set("audioManager", this.audioManager);
 
