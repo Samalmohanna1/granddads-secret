@@ -99,7 +99,7 @@ export default class BaseScene extends Scene {
                 "map-full"
             )
             .setOrigin(0.5)
-            .setScale(0.2)
+            .setScale(1.4)
             .setInteractive();
 
         this.mapDisplay.setAlpha(0);
@@ -121,7 +121,7 @@ export default class BaseScene extends Scene {
         this.mapLocations = locations.map((location) => {
             const locationIcon = this.add
                 .image(location.x, location.y, location.imageKey)
-                .setScale(0.2);
+                .setScale(0.3);
 
             if (
                 gameMap
